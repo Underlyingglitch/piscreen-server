@@ -1,0 +1,11 @@
+[Unit]
+Description=piscreen-server PHP API endpoint
+After=multi-user.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/bash /home/pi/webserver/startapiserver.sh
+Restart=on-abort
+
+[Install]
+WantedBy=multi-user.target
