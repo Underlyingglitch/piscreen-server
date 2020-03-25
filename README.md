@@ -19,3 +19,7 @@ You can install both the server and the client on the same device, but you can a
 4. Cd into the directory
 
    `cd piscreen-server`
+
+5. Run install.sh script
+
+   `sudo ./install.sh`
