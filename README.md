@@ -14,8 +14,8 @@ You can install both the server and the client on the same device, but you can a
 
 3. Clone the GitHub repository to the home folder
 
-`git clone https://github.com/Underlyingglitch/piscreen-server`
+   `git clone https://github.com/Underlyingglitch/piscreen-server`
 
 4. Cd into the directory
 
-`cd piscreen-server`
+   `cd piscreen-server`
