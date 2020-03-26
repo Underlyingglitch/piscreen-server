@@ -23,7 +23,7 @@ sudo chmod u+rxw,g+rx-w,o-rwx /home/pi/piscreen-server/webserver
 echo "Creating startup scripts"
 mv dist/scripts/piscreen-server-api.service /lib/systemd/system/piscreen-server-api.service
 sudo chmod 644 /lib/systemd/system/piscreen-server-api.service
-chmod +x /home/pi/piscreen-server/webserver/startapiserver.sh
+chmod +x /home/pi/piscreen-server/webserver/startapiserver.py
 
 echo "Reloading startup sequence"
 systemctl daemon-reload
