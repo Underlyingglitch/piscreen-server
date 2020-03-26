@@ -5,7 +5,6 @@ header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 
 //Include database and object files
-include_once '../config/database.php';
 include_once '../objects/playerdata.php';
 
 //Initialize object
