@@ -8,7 +8,7 @@ if [[ $EUID -ne 0 ]]; then
 fi
 
 echo "Installing packages"
-apt-get -y install php5 php5-fpm php5-mysql
+apt-get -y install php
 
 echo "Removing default apache2 configuration"
 sudo rm /etc/apache2/sites-available/000-default.conf
