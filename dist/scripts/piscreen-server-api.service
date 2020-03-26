@@ -4,7 +4,7 @@ After=multi-user.target
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/bash /home/pi/webserver/startapiserver.sh
+ExecStart=/usr/bin/python /home/pi/webserver/startapiserver.py
 Restart=on-abort
 
 [Install]
