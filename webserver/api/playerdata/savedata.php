@@ -13,6 +13,7 @@ $playerdata = new Playerdata();
 
 //Get URL data
 $data = json_decode(file_get_contents("php://input"));
+$playerdata->player_id = $data->player_id;
 $playerdata->player_name = $data->player_name;
 $playerdata->ip = $data->ip_address;
 $playerdata->last_checkin = $data->last_checkin;
