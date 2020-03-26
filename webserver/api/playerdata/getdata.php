@@ -13,7 +13,7 @@ $playerdata = new Playerdata();
 
 //Get URL data
 $data = json_decode(file_get_contents("php://input"));
-$playerdata->get_player_name = $data->player_name;
+$playerdata->get_player_id = $data->player_id;
 
 //Set response code to 200 OK
 http_response_code(200);
