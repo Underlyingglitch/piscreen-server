@@ -22,4 +22,4 @@ You can install both the server and the client on the same device, but you can a
 
 5. Run install.sh script
 
-   `sudo ./install.sh`
+   `sudo sh ./install.sh`
