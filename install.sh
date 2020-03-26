@@ -16,10 +16,6 @@ echo "Adding new configuration"
 sudo mv dist/scripts/000-default.conf /etc/apache2/sites-available/000-default.conf
 sudo chmod 644 /etc/apache2/sites-available/000-default.conf
 
-echo "Changing webserver rights"
-sudo chown -R pi:www-data /home/pi/piscreen-server/webserver
-sudo chmod u+rxw,g+rx-w,o-rwx /home/pi/piscreen-server/webserver
-
 echo "Creating startup scripts"
 mv dist/scripts/piscreen-server-api.service /lib/systemd/system/piscreen-server-api.service
 sudo chmod 644 /lib/systemd/system/piscreen-server-api.service
