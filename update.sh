@@ -7,7 +7,7 @@ if [[ $EUID -ne 0 ]]; then
   exit 1
 fi
 
-echo "Installing packages"
+echo "Updating packages"
 apt-get -y update
 apt-get -y upgrade
 
