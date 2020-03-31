@@ -8,17 +8,18 @@ if [[ $EUID -ne 0 ]]; then
 fi
 
 echo "Installing packages"
+apt-get -y update
 apt-get -y install php
 
 echo "Removing apache2"
-sudo apt-get remove apache2
-sudo apt-get purge apache2
+apt-get -y remove apache2
+apt-get -y purge apache2
 
 echo "Creating startup scripts"
 mv dist/scripts/piscreen-server-api.service /lib/systemd/system/piscreen-server-api.service
 mv dist/scripts/piscreen-server-controlpanel.service /lib/systemd/system/piscreen-server-controlpanel.service
-sudo chmod 644 /lib/systemd/system/piscreen-server-api.service
-sudo chmod 644 /lib/systemd/system/piscreen-server-controlpanel.service
+chmod 644 /lib/systemd/system/piscreen-server-api.service
+chmod 644 /lib/systemd/system/piscreen-server-controlpanel.service
 chmod +x /home/pi/piscreen-server/webserver/startapiserver.py
 chmod +x /home/pi/piscreen-server/webserver/startcontrolpanel.py
 
