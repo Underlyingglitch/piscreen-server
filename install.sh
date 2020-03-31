@@ -30,3 +30,4 @@ systemctl daemon-reload
 echo "Starting services"
 systemctl enable piscreen-server-api.service
 systemctl start piscreen-server-api.service
+sudo service apache2 restart
