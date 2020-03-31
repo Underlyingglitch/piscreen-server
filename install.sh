@@ -11,6 +11,9 @@ echo "Installing packages"
 apt-get -y update
 apt-get -y install php
 
+echo "Removing unnessesary packages"
+apt autoremove
+
 echo "Removing apache2"
 apt-get -y remove apache2
 apt-get -y purge apache2
