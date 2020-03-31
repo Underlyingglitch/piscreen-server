@@ -25,3 +25,7 @@ cp -r controlpanel ../../webserver/controlpanel
 echo "restarting services"
 systemctl restart piscreen-server-api.service
 systemctl restart piscreen-server-controlpanel.service
+
+echo "Removing tmp files"
+cd ../../
+rm -rf piscreen-server-update
