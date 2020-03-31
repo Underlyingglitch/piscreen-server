@@ -12,16 +12,15 @@ apt-get -y update
 apt-get -y upgrade
 
 echo "Updating webfiles"
-cd ~
 echo "Downloading files"
 git clone https://github.com/Underlyingglitch/piscreen-server piscreen-server-update
 cd piscreen-server-update/webserver
 echo "Removing old files"
-rm -rf ~/piscreen-server/webserver/api
-rm -rf ~/piscreen-server/webserver/controlpanel
+rm -rf ../../webserver/api
+rm -rf ../../webserver/controlpanel
 echo "Copying new files"
-cp api ~/piscreen-server/webserver/api
-cp controlpanel ~/piscreen-server/webserver/controlpanel
+cp -r api ../../webserver/api
+cp -r controlpanel ../../webserver/controlpanel
 
 echo "restarting services"
 systemctl restart piscreen-server-api.service
