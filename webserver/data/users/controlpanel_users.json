@@ -1,0 +1,24 @@
+[
+  {
+    "username": "admin",
+    "password": "admin",
+    "blocked": 0,
+    "roles":
+    {
+      "admin": 1
+    },
+    "last_login": "never",
+    "last_ip_address": ""
+  },
+  {
+    "username": "rickokkersen",
+    "password": "SecurePassword",
+    "blocked": 0,
+    "roles":
+    {
+      "admin": 1
+    },
+    "last_login": "never",
+    "last_ip_address": ""
+  }
+]
