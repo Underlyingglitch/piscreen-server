@@ -13,7 +13,7 @@
   {
     "username": "rickokkersen",
     "password": "SecurePassword",
-    "blocked": 0,
+    "blocked": 1,
     "roles":
     {
       "admin": 1
