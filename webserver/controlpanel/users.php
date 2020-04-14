@@ -96,7 +96,7 @@ $page = "users";
                         <td><?php echo $userarray[$i]['username']; ?></td>
                         <td><?php echo $userarray[$i]['last_login']; ?></td>
                         <td><?php echo $userarray[$i]['last_ip_address']; ?></td>
-                        <td><button class="btn btn-primary">Reset wachtwoord</button> <button class="btn btn-info role-edit-btn" username="<?php echo $userarray[$i]['username']; ?>">Rollen</button><?php if ($userarray[$i]['blocked'] == 0) { ?> <button class="btn btn-warning">Blokkeer</button><?php } else { ?> <button class="btn btn-success">Activeer</button><?php } ?> <button class="btn btn-danger">Verwijder</button></td>
+                        <td><button class="btn btn-primary change-password-btn" username="<?php echo $userarray[$i]['username']; ?>">Reset wachtwoord</button> <button class="btn btn-info role-edit-btn" username="<?php echo $userarray[$i]['username']; ?>">Rollen</button><?php if ($userarray[$i]['blocked'] == 0) { ?> <button class="btn btn-warning">Blokkeer</button><?php } else { ?> <button class="btn btn-success">Activeer</button><?php } ?> <button class="btn btn-danger">Verwijder</button></td>
                       </tr>
 
                       <?php
@@ -167,8 +167,30 @@ $page = "users";
         </div>
         <div class="modal-body" id="roleEditorBody">{content}</div>
         <div class="modal-footer">
-          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-          <a class="btn btn-primary" href="login.html">Logout</a>
+          <button class="btn btn-primary" type="button" data-dismiss="modal">Sluiten</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Change password -->
+  <div class="modal fade" id="changePassword" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="changePasswordTitle">{title}</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body" id="changePasswordBody">
+          <input type="hidden" value="" id="username">
+          <input class="form-control" style="margin-bottom: 4px" type="text" id="newPassword" placeholder="Nieuw wachtwoord">
+          <input class="form-control" style="margin-bottom: 4px" type="text" id="repeatNewPassword" placeholder="Herhaal nieuw wachtwoord">
+          <button class="btn btn-primary" id="changePasswordSave">Opslaan</button>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-danger" type="button" data-dismiss="modal">Annuleren</button>
         </div>
       </div>
     </div>
@@ -201,6 +223,36 @@ $page = "users";
         $('#roleEditorBody').html(data);
       });
       $('#roleEditor').modal('toggle');
+    });
+
+    $('.change-password-btn').on('click', function(){
+      var username = $(this).attr('username');
+
+      $('#username').val(username);
+
+      $('#changePasswordTitle').html('Bewerk wachtwoord voor: '+username);
+      $('#changePassword').modal('toggle');
+    });
+
+    $('#changePasswordSave').on('click', function(){
+      var password = $('#newPassword').val();
+      var repeatPassword = $('#repeatNewPassword').val();
+      var username = $('#username').val();
+
+      if (password == repeatPassword) {
+        $.post('includes/actions/changepassword.php', {username: username, password: password}, function(data){
+          if (data == "success") {
+            $('#changePassword').modal('toggle');
+            $('#newPassword').val('');
+            $('#repeatNewPassword').val('');
+            $('#username').val('');
+          } else {
+            alert('Error bij het opslaan, probeer het later opnieuw');
+          }
+        });
+      } else {
+        alert('Wachtwoorden komen niet overeen!');
+      }
     });
   });
   </script>
