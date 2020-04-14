@@ -52,7 +52,10 @@ $page = "users";
         <div class="container-fluid">
 
           <!-- Page Heading -->
-          <h1 class="h3 mb-2 text-gray-800">Gebruikers</h1>
+          <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-2 text-gray-800">Gebruikers</h1>
+            <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm"><i class="fas fa-plus fa-sm text-white-50"></i> Nieuwe gebruiker</a>
+          </div>
           <p class="mb-4">Bekijk, bewerk en maak nieuwe gebruikers voor uw PiScreen webportaal.</p>
 
           <!-- DataTales Example -->
@@ -93,7 +96,7 @@ $page = "users";
                         <td><?php echo $userarray[$i]['username']; ?></td>
                         <td><?php echo $userarray[$i]['last_login']; ?></td>
                         <td><?php echo $userarray[$i]['last_ip_address']; ?></td>
-                        <td><button class="btn btn-primary">Reset wachtwoord</button> <button class="btn btn-info">Rollen</button><?php if ($userarray[$i]['blocked'] == 0) { ?> <button class="btn btn-warning">Blokkeer</button><?php } else { ?> <button class="btn btn-success">Activeer</button><?php } ?> <button class="btn btn-danger">Verwijder</button></td>
+                        <td><button class="btn btn-primary">Reset wachtwoord</button> <button class="btn btn-info role-edit-btn" username="<?php echo $userarray[$i]['username']; ?>">Rollen</button><?php if ($userarray[$i]['blocked'] == 0) { ?> <button class="btn btn-warning">Blokkeer</button><?php } else { ?> <button class="btn btn-success">Activeer</button><?php } ?> <button class="btn btn-danger">Verwijder</button></td>
                       </tr>
 
                       <?php
@@ -152,6 +155,25 @@ $page = "users";
     </div>
   </div>
 
+  <!-- Role editor -->
+  <div class="modal fade" id="roleEditor" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="roleEditorTitle">{title}</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body" id="roleEditorBody">{content}</div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+          <a class="btn btn-primary" href="login.html">Logout</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Bootstrap core JavaScript-->
   <script src="vendor/jquery/jquery.min.js"></script>
   <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -168,6 +190,20 @@ $page = "users";
 
   <!-- Page level custom scripts -->
   <script src="js/demo/datatables-demo.js"></script>
+
+  <script>
+  $(document).ready(function(){
+    $('.role-edit-btn').on('click', function(){
+      var username = $(this).attr('username');
+
+      $.post('includes/generators/roleeditor.php', {username: username}, function(data){
+        $('#roleEditorTitle').html('Bewerk rollen voor: '+username);
+        $('#roleEditorBody').html(data);
+      });
+      $('#roleEditor').modal('toggle');
+    });
+  });
+  </script>
 
 </body>
 
