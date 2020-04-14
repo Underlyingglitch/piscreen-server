@@ -82,7 +82,7 @@ $page = "users";
                       <th>Acties</th>
                     </tr>
                   </tfoot>
-                  <tbody>
+                  <tbody id="users">
                     <?php
 
                     $data_path = "../data/";
@@ -96,7 +96,7 @@ $page = "users";
                         <td><?php echo $userarray[$i]['username']; ?></td>
                         <td><?php echo $userarray[$i]['last_login']; ?></td>
                         <td><?php echo $userarray[$i]['last_ip_address']; ?></td>
-                        <td><button class="btn btn-primary change-password-btn" username="<?php echo $userarray[$i]['username']; ?>">Reset wachtwoord</button> <button class="btn btn-info role-edit-btn" username="<?php echo $userarray[$i]['username']; ?>">Rollen</button><?php if ($userarray[$i]['blocked'] == 0) { ?> <button class="btn btn-warning">Blokkeer</button><?php } else { ?> <button class="btn btn-success">Activeer</button><?php } ?> <button class="btn btn-danger">Verwijder</button></td>
+                        <td><button class="btn btn-primary change-password-btn" username="<?php echo $userarray[$i]['username']; ?>">Reset wachtwoord</button> <button class="btn btn-info role-edit-btn" username="<?php echo $userarray[$i]['username']; ?>">Rollen</button><?php if ($userarray[$i]['blocked'] == 0) { ?> <button class="btn btn-warning block-user-btn" username="<?php echo $userarray[$i]['username']; ?>">Blokkeer</button><?php } else { ?> <button class="btn btn-success activate-user-btn" username="<?php echo $userarray[$i]['username']; ?>">Activeer</button><?php } ?> <button class="btn btn-danger">Verwijder</button></td>
                       </tr>
 
                       <?php
@@ -196,6 +196,44 @@ $page = "users";
     </div>
   </div>
 
+  <!-- Block user -->
+  <div class="modal fade" id="blockUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="blockUserTitle">{title}</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body" id="blockUserBody">{content}</div>
+        <div class="modal-footer">
+          <button class="btn btn-primary" type="button" data-dismiss="modal">Annuleren</button>
+          <button class="btn btn-danger" type="button" id="proceed-block">Blokkeren</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Activate user -->
+  <div class="modal fade" id="activateUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="activateUserTitle">{title}</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body" id="activateUserBody">{content}</div>
+        <div class="modal-footer">
+          <button class="btn btn-primary" type="button" data-dismiss="modal">Annuleren</button>
+          <button class="btn btn-success" type="button" id="proceed-activation">Activeren</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Bootstrap core JavaScript-->
   <script src="vendor/jquery/jquery.min.js"></script>
   <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -253,6 +291,50 @@ $page = "users";
       } else {
         alert('Wachtwoorden komen niet overeen!');
       }
+    });
+
+    $('.block-user-btn').on('click', function(){
+      var username = $(this).attr('username');
+
+      $('#blockUserBody').html('Weet u zeker dat u <strong>'+username+'</strong> wilt blokkeren?');
+      $('#blockUserTitle').html('Blokkeer: '+username);
+      $('#proceed-block').attr('username', username);
+      $('#blockUser').modal('toggle');
+    });
+
+    $('#proceed-block').on('click', function(){
+      var username = $(this).attr('username');
+
+      $.post('includes/actions/blockuser.php', {username: username}, function(data){
+        if (data == "success") {
+          $('#blockUser').modal('toggle');
+          location.reload();
+        } else {
+          alert('Fout bij blokkeren, probeer het later opnieuw');
+        }
+      });
+    });
+
+    $('.activate-user-btn').on('click', function(){
+      var username = $(this).attr('username');
+
+      $('#activateUserBody').html('Weet u zeker dat u <strong>'+username+'</strong> wilt activeren?');
+      $('#activateUserTitle').html('Blokkeer: '+username);
+      $('#proceed-activation').attr('username', username);
+      $('#activateUser').modal('toggle');
+    });
+
+    $('#proceed-activation').on('click', function(){
+      var username = $(this).attr('username');
+
+      $.post('includes/actions/activateuser.php', {username: username}, function(data){
+        if (data == "success") {
+          $('#activateUser').modal('toggle');
+          location.reload();
+        } else {
+          alert('Fout bij activeren, probeer het later opnieuw');
+        }
+      });
     });
   });
   </script>
