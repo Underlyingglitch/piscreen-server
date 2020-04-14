@@ -70,23 +70,10 @@
       <span>Gebruikers</span></a>
   </li>
 
-  <li class="nav-item">
-    <a class="nav-link" href="tables.html">
+  <li class="nav-item <?php if ($page === "players") { echo "active"; } ?>">
+    <a class="nav-link" href="players.php">
       <i class="fas fa-fw fa-tv"></i>
       <span>Players</span></a>
-  </li>
-
-  <li class="nav-item">
-    <a class="nav-link" href="tables.html">
-      <i class="fas fa-fw fa-download"></i>
-      <span>Backup</span></a>
-  </li>
-
-  <!-- Nav Item - Tables -->
-  <li class="nav-item">
-    <a class="nav-link" href="tables.html">
-      <i class="fas fa-fw fa-database"></i>
-      <span>Database</span></a>
   </li>
 
   <!-- Divider -->
