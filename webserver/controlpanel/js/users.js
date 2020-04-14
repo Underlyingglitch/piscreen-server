@@ -76,7 +76,7 @@ $(document).ready(function(){
     $.post('includes/actions/activateuser.php', {username: username}, function(data){
       if (data == "success") {
         $('#activateUser').modal('toggle');
-        location.reload();
+        $('#users').load('includes/generators/userspage.php');
       } else {
         alert('Fout bij activeren, probeer het later opnieuw');
       }
@@ -88,10 +88,35 @@ $(document).ready(function(){
 
     $.post('includes/actions/deleteuser.php', {username: username}, function(data){
       if (data == "success") {
-        location.reload();
+        $('#users').load('includes/generators/userspage.php');
       } else {
         alert('Waarschuwing: verwijderen niet voltooid! Probeer het later opnieuw');
       }
     });
   });
+
+  $('#create-user-toggle').on('click', function(){
+    $('#createUser').modal('toggle');
+  });
+
+  $('#create-user-btn').on('click', function(){
+    var username = $('#newUserUsername').val();
+    var password = $('#newUserPassword').val();
+
+    $.post('includes/actions/createuser.php', {username: username, password: password}, function(data){
+      if (data == "success") {
+        $('#createUser').modal('toggle');
+        $('#users').load('includes/generators/userspage.php');
+        $.post('includes/generators/roleeditor.php', {username: username}, function(data){
+          $('#roleEditorTitle').html('Bewerk rollen voor: '+username);
+          $('#roleEditorBody').html(data);
+        });
+        $('#roleEditor').modal('toggle');
+      } else {
+        alert('Waarschuwing: fout bij het aanmaken van de gebruiker. Probeer het later opnieuw');
+      }
+    });
+  });
+
+
 });

@@ -54,7 +54,7 @@ $page = "users";
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-2 text-gray-800">Gebruikers</h1>
-            <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm"><i class="fas fa-plus fa-sm text-white-50"></i> Nieuwe gebruiker</a>
+            <button id="create-user-toggle" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm"><i class="fas fa-plus fa-sm text-white-50"></i> Nieuwe gebruiker</button>
           </div>
           <p class="mb-4">Bekijk, bewerk en maak nieuwe gebruikers voor uw PiScreen webportaal.</p>
 
@@ -96,7 +96,7 @@ $page = "users";
                         <td><?php echo $userarray[$i]['username']; ?></td>
                         <td><?php echo $userarray[$i]['last_login']; ?></td>
                         <td><?php echo $userarray[$i]['last_ip_address']; ?></td>
-                        <td><button class="btn btn-primary change-password-btn" username="<?php echo $userarray[$i]['username']; ?>">Reset wachtwoord</button> <button class="btn btn-info role-edit-btn" username="<?php echo $userarray[$i]['username']; ?>">Rollen</button><?php if ($userarray[$i]['blocked'] == 0) { ?> <button class="btn btn-warning block-user-btn" username="<?php echo $userarray[$i]['username']; ?>">Blokkeer</button><?php } else { ?> <button class="btn btn-success activate-user-btn" username="<?php echo $userarray[$i]['username']; ?>">Activeer</button><?php } ?> <button class="btn btn-danger">Verwijder</button></td>
+                        <td><button class="btn btn-primary change-password-btn" username="<?php echo $userarray[$i]['username']; ?>">Reset wachtwoord</button> <button class="btn btn-info role-edit-btn" username="<?php echo $userarray[$i]['username']; ?>">Rollen</button><?php if ($userarray[$i]['blocked'] == 0) { ?> <button class="btn btn-warning block-user-btn" username="<?php echo $userarray[$i]['username']; ?>">Blokkeer</button><?php } else { ?> <button class="btn btn-success activate-user-btn" username="<?php echo $userarray[$i]['username']; ?>">Activeer</button><?php } ?> <button class="btn btn-danger delete-btn" username="<?php echo $userarray[$i]['username']; ?>">Verwijder</button></td>
                       </tr>
 
                       <?php
@@ -234,6 +234,29 @@ $page = "users";
     </div>
   </div>
 
+  <!-- Create user -->
+  <div class="modal fade" id="createUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Maak een nieuwe gebruiker</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <input class="form-control" id="newUserUsername" type="text" placeholder="Gebruikersnaam" style="margin-bottom: 4px">
+          <input class="form-control" id="newUserPassword" type="password" placeholder="Wachtwoord" style="margin-bottom: 4px">
+          <p>Na het aanmaken is het mogelijk de rollen te selecteren voor deze gebruiker</p>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary" type="button" data-dismiss="modal">Annuleren</button>
+          <button class="btn btn-success" type="button" id="create-user-btn">Maak gebruiker</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Bootstrap core JavaScript-->
   <script src="vendor/jquery/jquery.min.js"></script>
   <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -251,93 +274,7 @@ $page = "users";
   <!-- Page level custom scripts -->
   <script src="js/demo/datatables-demo.js"></script>
 
-  <script>
-  $(document).ready(function(){
-    $('.role-edit-btn').on('click', function(){
-      var username = $(this).attr('username');
-
-      $.post('includes/generators/roleeditor.php', {username: username}, function(data){
-        $('#roleEditorTitle').html('Bewerk rollen voor: '+username);
-        $('#roleEditorBody').html(data);
-      });
-      $('#roleEditor').modal('toggle');
-    });
-
-    $('.change-password-btn').on('click', function(){
-      var username = $(this).attr('username');
-
-      $('#username').val(username);
-
-      $('#changePasswordTitle').html('Bewerk wachtwoord voor: '+username);
-      $('#changePassword').modal('toggle');
-    });
-
-    $('#changePasswordSave').on('click', function(){
-      var password = $('#newPassword').val();
-      var repeatPassword = $('#repeatNewPassword').val();
-      var username = $('#username').val();
-
-      if (password == repeatPassword) {
-        $.post('includes/actions/changepassword.php', {username: username, password: password}, function(data){
-          if (data == "success") {
-            $('#changePassword').modal('toggle');
-            $('#newPassword').val('');
-            $('#repeatNewPassword').val('');
-            $('#username').val('');
-          } else {
-            alert('Error bij het opslaan, probeer het later opnieuw');
-          }
-        });
-      } else {
-        alert('Wachtwoorden komen niet overeen!');
-      }
-    });
-
-    $('.block-user-btn').on('click', function(){
-      var username = $(this).attr('username');
-
-      $('#blockUserBody').html('Weet u zeker dat u <strong>'+username+'</strong> wilt blokkeren?');
-      $('#blockUserTitle').html('Blokkeer: '+username);
-      $('#proceed-block').attr('username', username);
-      $('#blockUser').modal('toggle');
-    });
-
-    $('#proceed-block').on('click', function(){
-      var username = $(this).attr('username');
-
-      $.post('includes/actions/blockuser.php', {username: username}, function(data){
-        if (data == "success") {
-          $('#blockUser').modal('toggle');
-          location.reload();
-        } else {
-          alert('Fout bij blokkeren, probeer het later opnieuw');
-        }
-      });
-    });
-
-    $('.activate-user-btn').on('click', function(){
-      var username = $(this).attr('username');
-
-      $('#activateUserBody').html('Weet u zeker dat u <strong>'+username+'</strong> wilt activeren?');
-      $('#activateUserTitle').html('Blokkeer: '+username);
-      $('#proceed-activation').attr('username', username);
-      $('#activateUser').modal('toggle');
-    });
-
-    $('#proceed-activation').on('click', function(){
-      var username = $(this).attr('username');
-
-      $.post('includes/actions/activateuser.php', {username: username}, function(data){
-        if (data == "success") {
-          $('#activateUser').modal('toggle');
-          location.reload();
-        } else {
-          alert('Fout bij activeren, probeer het later opnieuw');
-        }
-      });
-    });
-  });
-  </script>
+  <script src="js/users.js"></script>
 
 </body>
 
