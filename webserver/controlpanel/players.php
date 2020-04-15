@@ -1,6 +1,23 @@
 <?php
 
+session_start();
+
 $page = "players";
+
+include "includes/classes/auth.php";
+
+$auth = new Auth();
+
+if (!isset($_SESSION['auth'])) {
+
+  header("Location: login.php");
+
+  exit;
+}
+
+if (!$auth->isAnyRole("players")) {
+  header("Location: /");
+}
 
 ?>
 

@@ -80,7 +80,7 @@ $auth = new Auth();
   </li>
   <?php } ?>
 
-  <?php if ($auth->isAnyRole("users")) { ?>
+  <?php if ($auth->isAnyRole("players")) { ?>
   <li class="nav-item <?php if ($page === "players") { echo "active"; } ?>">
     <a class="nav-link" href="players.php">
       <i class="fas fa-fw fa-tv"></i>

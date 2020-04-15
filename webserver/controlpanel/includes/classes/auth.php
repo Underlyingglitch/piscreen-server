@@ -1,7 +1,5 @@
 <?php
 
-session_start();
-
 class Auth {
 
   private $data_path = "../../../data/";
