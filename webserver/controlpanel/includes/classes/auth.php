@@ -21,6 +21,9 @@ class Auth {
           $_SESSION['auth'] = $username;
           $_SESSION['id'] = $i;
 
+          $this->loginTime($i);
+          $this->loginIP($i);
+
           return "success";
         } else {
           //Incorrect password
@@ -31,6 +34,34 @@ class Auth {
         return "usernotfound";
       }
     }
+  }
+
+  function loginTime($i) {
+    $json = file_get_contents($this->data_path.'users/controlpanel_users.json');
+    $userarray = json_decode($json, true);
+
+    $dateTime = new \DateTime();
+
+    $time = $dateTime->format('Y-m-d H:i:s');
+
+    $userarray[$i]['last_login'] = (string)$time;
+
+    file_put_contents($this->data_path.'users/controlpanel_users.json', json_encode($userarray));
+
+    return true;
+  }
+
+  function loginIP($i) {
+    $json = file_get_contents($this->data_path.'users/controlpanel_users.json');
+    $userarray = json_decode($json, true);
+
+    $ip = $_SERVER['REMOTE_ADDR'];
+
+    $userarray[$i]['last_ip_address'] = (string)$ip;
+
+    file_put_contents($this->data_path.'users/controlpanel_users.json', json_encode($userarray));
+
+    return true;
   }
 
 
