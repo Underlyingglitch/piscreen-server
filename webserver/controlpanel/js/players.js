@@ -8,7 +8,7 @@ $(document).ready(function(){
     var newPlayerIP = $('#newPlayerIP').val();
     var newPlayerCode = $('#newPlayerCode').val();
 
-    if (newPlayerIP == '' || newPlayerName = '' || newPlayerCode = '') {
+    if (newPlayerIP == '' || newPlayerName == '' || newPlayerCode == '') {
       alert('Niet alle velden zijn ingevuld!');
     }
 
@@ -23,6 +23,6 @@ $(document).ready(function(){
   });
 
   function getStatus() {
-    
+
   }
 });
