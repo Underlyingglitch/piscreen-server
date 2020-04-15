@@ -1,3 +1,11 @@
+<?php
+
+include "classes/auth.php";
+
+$auth = new Auth();
+
+?>
+
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
   <!-- Sidebar - Brand -->
@@ -64,17 +72,21 @@
     Beheer
   </div>
 
+  <?php if ($auth->isAnyRole("users")) { ?>
   <li class="nav-item <?php if ($page === "users") { echo "active"; } ?>">
     <a class="nav-link" href="users.php">
       <i class="fas fa-fw fa-users"></i>
       <span>Gebruikers</span></a>
   </li>
+  <?php } ?>
 
+  <?php if ($auth->isAnyRole("users")) { ?>
   <li class="nav-item <?php if ($page === "players") { echo "active"; } ?>">
     <a class="nav-link" href="players.php">
       <i class="fas fa-fw fa-tv"></i>
       <span>Players</span></a>
   </li>
+  <?php } ?>
 
   <!-- Divider -->
   <hr class="sidebar-divider d-none d-md-block">

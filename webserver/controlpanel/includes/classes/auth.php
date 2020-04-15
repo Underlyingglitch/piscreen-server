@@ -71,7 +71,18 @@ class Auth {
     return true;
   }
 
+  function isAnyRole($role) {
+    $i = $_SESSION['id'];
 
+    $json = file_get_contents('../data/users/controlpanel_users.json');
+    $userarray = json_decode($json, true);
+
+    if ($userarray[$i]['roles']['main'][$role] === 1) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
 }
 
