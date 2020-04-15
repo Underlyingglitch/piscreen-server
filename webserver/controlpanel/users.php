@@ -1,7 +1,5 @@
 <?php
 
-$page = "users";
-
 session_start();
 
 if (!isset($_SESSION['auth'])) {
@@ -9,6 +7,16 @@ if (!isset($_SESSION['auth'])) {
   header("Location: login.php");
 
   exit;
+}
+
+include "includes/classes/auth.php";
+
+$auth = new Auth();
+
+$page = "users";
+
+if (!$auth->isAnyRole("playlists")) {
+  header("Location: /");
 }
 
 ?>

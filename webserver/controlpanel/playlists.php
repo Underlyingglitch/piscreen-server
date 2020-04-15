@@ -13,7 +13,7 @@ include "includes/classes/auth.php";
 
 $auth = new Auth();
 
-$page = "players";
+$page = "playlists";
 
 if (!$auth->isAnyRole("playlists")) {
   header("Location: /");
@@ -32,7 +32,7 @@ if (!$auth->isAnyRole("playlists")) {
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>PiScreen - Players</title>
+  <title>PiScreen - Afspeellijsten</title>
 
   <!-- Custom fonts for this template -->
   <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
