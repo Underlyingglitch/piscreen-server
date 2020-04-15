@@ -42,7 +42,7 @@ class Auth {
 
     $dateTime = new \DateTime();
 
-    $time = $dateTime->format('Y-m-d H:i:s');
+    $time = $dateTime->format('d-m-Y H:i:s');
 
     $userarray[$i]['last_login'] = (string)$time;
 
@@ -60,6 +60,13 @@ class Auth {
     $userarray[$i]['last_ip_address'] = (string)$ip;
 
     file_put_contents($this->data_path.'users/controlpanel_users.json', json_encode($userarray));
+
+    return true;
+  }
+
+  function logout() {
+    session_unset();
+    session_destroy();
 
     return true;
   }

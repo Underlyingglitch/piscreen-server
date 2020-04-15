@@ -1,10 +1,10 @@
 <?php
 
-session_start();
+include "includes/classes/auth.php";
 
-session_unset();
+$auth = new Auth();
 
-session_destroy();
+$auth->logout();
 
 header("Location: login.php");
 
