@@ -86,16 +86,16 @@ if (!$auth->isAnyRole("playlists")) {
                   <thead>
                     <tr>
                       <th>Naam</th>
-                      <th>Laatste inlog</th>
-                      <th>Laatste IP</th>
+                      <th>IP</th>
+                      <th>Status</th>
                       <th>Acties</th>
                     </tr>
                   </thead>
                   <tfoot>
                     <tr>
                       <th>Naam</th>
-                      <th>Laatste inlog</th>
-                      <th>Laatste IP</th>
+                      <th>IP</th>
+                      <th>Status</th>
                       <th>Acties</th>
                     </tr>
                   </tfoot>
@@ -104,15 +104,15 @@ if (!$auth->isAnyRole("playlists")) {
 
                     $data_path = "../data/";
 
-                    $json = file_get_contents($data_path.'users/controlpanel_users.json');
-                    $userarray = json_decode($json, true);
+                    $json = file_get_contents($data_path.'players/players.json');
+                    $playerarray = json_decode($json, true);
 
-                    for ($i=0; $i<count($userarray); $i++) {
+                    for ($i=0; $i<count($playerarray); $i++) {
                       ?>
                       <tr>
-                        <td><?php echo $userarray[$i]['username']; ?></td>
-                        <td><?php echo $userarray[$i]['last_login']; ?></td>
-                        <td><?php echo $userarray[$i]['last_ip_address']; ?></td>
+                        <td><?php echo $playerarray[$i]['name']; ?></td>
+                        <td><?php echo $playerarray[$i]['ip']; ?></td>
+                        <td class="status-box" php-ip="<?php echo $playerarray[$i]['ip']; ?>"></td>
                         <td><button class="btn btn-primary change-password-btn" username="<?php echo $userarray[$i]['username']; ?>">Reset wachtwoord</button> <button class="btn btn-info role-edit-btn" username="<?php echo $userarray[$i]['username']; ?>">Rollen</button><?php if ($userarray[$i]['blocked'] == 0) { ?> <button class="btn btn-warning block-user-btn" username="<?php echo $userarray[$i]['username']; ?>">Blokkeer</button><?php } else { ?> <button class="btn btn-success activate-user-btn" username="<?php echo $userarray[$i]['username']; ?>">Activeer</button><?php } ?> <button class="btn btn-danger delete-btn" username="<?php echo $userarray[$i]['username']; ?>">Verwijder</button></td>
                       </tr>
 
@@ -172,6 +172,30 @@ if (!$auth->isAnyRole("playlists")) {
     </div>
   </div>
 
+  <!-- Logout Modal-->
+  <div class="modal fade" id="addPlayer" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Voeg player toe</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          Vul onderstaande velden in om een nieuwe player te koppelen aan uw PiScreen installatie.<br>
+          <input class="form-control" type="text" id="newPlayerName" placeholder="Naam van player" style="margin-bottom: 4px">
+          <input class="form-control" type="text" id="newPlayerIP" placeholder="IP adres (xxx.xxx.xx.xx)" style="margin-bottom: 4px">
+          <input class="form-control" type="text" id="newPlayerCode" placeholder="Beveiligingscode" style="margin-bottom: 4px">
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Annuleren</button>
+          <button class="btn btn-success" id="addPlayerBtn">Voeg toe</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Bootstrap core JavaScript-->
   <script src="vendor/jquery/jquery.min.js"></script>
   <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -189,7 +213,7 @@ if (!$auth->isAnyRole("playlists")) {
   <!-- Page level custom scripts -->
   <script src="js/demo/datatables-demo.js"></script>
 
-  <script src="js/users.js"></script>
+  <script src="js/players.js"></script>
 
 </body>
 
