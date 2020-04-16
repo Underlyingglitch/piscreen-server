@@ -1,5 +1,7 @@
 <?php
 
+session_start();
+
 include "includes/classes/auth.php";
 
 $auth = new Auth();
