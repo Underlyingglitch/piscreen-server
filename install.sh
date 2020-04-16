@@ -34,3 +34,9 @@ systemctl enable piscreen-server-api.service
 systemctl enable piscreen-server-controlpanel.service
 systemctl start piscreen-server-api.service
 systemctl start piscreen-server-controlpanel.service
+
+raspi-config nonint do_hostname piscreenserver
+
+echo "Rebooting in 10 seconds"
+sleep 10
+reboot
