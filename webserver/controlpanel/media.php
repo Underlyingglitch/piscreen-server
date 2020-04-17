@@ -15,7 +15,7 @@ $auth = new Auth();
 
 $page = "media";
 
-if (!$auth->isAnyRole("playlists")) {
+if (!$auth->isAnyRole("media")) {
   header("Location: /");
 }
 

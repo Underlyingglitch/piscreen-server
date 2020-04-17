@@ -2,11 +2,22 @@
 
 session_start();
 
+if (!isset($_SESSION['auth'])) {
+
+  header("Location: login.php");
+
+  exit;
+}
+
 include "includes/classes/auth.php";
 
 $auth = new Auth();
 
 $page = "dashboard";
+
+// if (!$auth->isAnyRole("dashboard")) {
+//   header("Location: /");
+// }
 
 ?>
 

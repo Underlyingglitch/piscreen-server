@@ -15,7 +15,7 @@ $auth = new Auth();
 
 $page = "players";
 
-if (!$auth->isAnyRole("playlists")) {
+if (!$auth->isAnyRole("players")) {
   header("Location: /");
 }
 
