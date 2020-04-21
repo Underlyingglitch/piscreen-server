@@ -202,8 +202,8 @@ if (!$auth->isAnyRole("users")) {
         </div>
         <div class="modal-body" id="changePasswordBody">
           <input type="hidden" value="" id="username">
-          <input class="form-control" style="margin-bottom: 4px" type="text" id="newPassword" placeholder="Nieuw wachtwoord">
-          <input class="form-control" style="margin-bottom: 4px" type="text" id="repeatNewPassword" placeholder="Herhaal nieuw wachtwoord">
+          <input class="form-control" style="margin-bottom: 4px" type="password" id="newPassword" placeholder="Nieuw wachtwoord">
+          <input class="form-control" style="margin-bottom: 4px" type="password" id="repeatNewPassword" placeholder="Herhaal nieuw wachtwoord">
           <button class="btn btn-primary" id="changePasswordSave">Opslaan</button>
         </div>
         <div class="modal-footer">
