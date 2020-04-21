@@ -6,7 +6,7 @@ include "../classes/auth.php";
 
 $auth = new Auth();
 
-$response = $auth->login($_POST['username'], $_POST['password']) === "success";
+$response = $auth->login($_POST['username'], $_POST['password']);
 
 if ($reponse === "success") {
   header("Location: ../../");

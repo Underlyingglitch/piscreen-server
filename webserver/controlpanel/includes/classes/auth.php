@@ -15,6 +15,8 @@ class Auth {
     for ($i=0; $i<count($userarray); $i++) {
       if ($userarray[$i]['username'] === $username) {
         if ($userarray[$i]['password'] === $password) {
+          $found = 1;
+
           //Details correct!
           $_SESSION['auth'] = $username;
           $_SESSION['id'] = $i;
@@ -27,10 +29,10 @@ class Auth {
           //Incorrect password
           return "incorrectpassword";
         }
-      } else {
-        //Incorrect username
-        return "usernotfound";
       }
+    }
+    if ($found != 1) {
+      return "usernotfound";
     }
   }
 
