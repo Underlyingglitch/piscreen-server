@@ -82,4 +82,4 @@ password: admin
 
 The admin user has access to every page in the control panel. Go to the users page using the navigation bar on the left side.
 
-[users page](https://github.com/Underlyingglitch/piscreen-server/documentation/users.png)
+![users page](https://user-images.githubusercontent.com/36314703/79972569-715b6f80-8496-11ea-9501-b5d825b989ff.png)
