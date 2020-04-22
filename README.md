@@ -13,13 +13,13 @@ There are 2 ways of installing this software: manual install, and by using the p
 ### Using the .img file (recommended)
 1. Download the latest version from the releases tab.
 
-2. Download Balena Etcher (or a similar tool) from [their website](https://www.balena.io/etcher/)
+1. Download Balena Etcher (or a similar tool) from [their website](https://www.balena.io/etcher/)
 
-3. Flash the image to an SD card (Warning: the existing data will be destroyed)
+1. Flash the image to an SD card (Warning: the existing data will be destroyed)
 
-5. Boot up the Raspberry Pi
+1. Boot up the Raspberry Pi
 
-5. Connect to the Raspberry Pi using SSH
+1. Connect to the Raspberry Pi using SSH
 
    `ssh pi@piscreenserver`
 
@@ -28,25 +28,25 @@ There are 2 ways of installing this software: manual install, and by using the p
    `ssh pi@xxx.xxx.xx.xx`
 
 ### Manual installation
-1. Flash a version of Raspbian Buster (lite is recommended) software to an SD card. Install Raspbian to a Raspberry PI and make sure SSH is enabled.
+2. Flash a version of Raspbian Buster (lite is recommended) software to an SD card. Install Raspbian to a Raspberry PI and make sure SSH is enabled.
 
 2. SSH into the Raspberry PI
 
-3. Change the user password for security
+2. Change the user password for security
 
    `sudo passwd pi`
 
    Enter your new password
 
-4. Clone the GitHub repository to the home folder
+2. Clone the GitHub repository to the home folder
 
    `git clone https://github.com/Underlyingglitch/piscreen-server`
 
-5. Cd into the directory
+2. Cd into the directory
 
    `cd piscreen-server`
 
-6. Run install.sh script
+2. Run install.sh script
 
    `sudo sh ./install.sh`
 
