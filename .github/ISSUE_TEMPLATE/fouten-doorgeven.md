@@ -17,22 +17,16 @@ Welke stappen moet ik doorlopen om dezelfde fout te krijgen?
 3. Scroll naar '....'
 4. Plek waar de fout zichtbaar is
 
-**Expected behavior**
-A clear and concise description of what you expected to happen.
+**Verwachtte gedrag**
+Geef een duidelijke beschrijving van wat hier had moeten gebeuren.
 
 **Screenshots**
-If applicable, add screenshots to help explain your problem.
-
-**Desktop (please complete the following information):**
- - OS: [e.g. iOS]
- - Browser [e.g. chrome, safari]
- - Version [e.g. 22]
-
-**Smartphone (please complete the following information):**
- - Device: [e.g. iPhone6]
+Als mogelijk, voeg screenshots toe om duidelijk te maken wat u bedoelt.
+**Apparaat**
+ - Apparaat: [e.g. iPhone6]
  - OS: [e.g. iOS8.1]
- - Browser [e.g. stock browser, safari]
- - Version [e.g. 22]
+ - Browser [e.g. chrome, safari etc.]
+ - Versie [e.g. 22]
 
-**Additional context**
-Add any other context about the problem here.
+**Overig**
+Voeg eventueel nog andere informatie toe
