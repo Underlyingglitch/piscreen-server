@@ -17,7 +17,7 @@ There are 2 ways of installing this software: manual install, and by using the p
 
 3. Flash the image to an SD card (Warning: the existing data will be destroyed)
 
-4. Boot up the Raspberry Pi
+5. Boot up the Raspberry Pi
 
 5. Connect to the Raspberry Pi using SSH
 
