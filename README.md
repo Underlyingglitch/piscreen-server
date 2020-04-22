@@ -5,10 +5,15 @@ Use this package in combination with [piscreen-client](https://github.com/Underl
 
 This application lets you control your piscreen players. It was built for Raspberry PI, but can be used on almost all Linux devices.
 
-You can install both the server and the client on the same device, but you can also use 2 indvidual devices.
+This server package has to be installed on a seperate device. The server and client software can't run on the same device.
 
 ## Installation
-1. Flash the Raspbian (lite version is recommended) software to an SD card. Install Raspbian to a Raspberry PI and make sure SSH is enabled.
+There are 2 ways of installing this software: manual install, and by using the provided .img file
+
+### Using the .img file (recommended)
+
+### Manual installation
+1. Flash a version of Raspbian Buster (lite is recommended) software to an SD card. Install Raspbian to a Raspberry PI and make sure SSH is enabled.
 
 2. SSH into the Raspberry PI
 
