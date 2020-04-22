@@ -81,3 +81,5 @@ password: admin
 ```
 
 The admin user has access to every page in the control panel. Go to the users page using the navigation bar on the left side.
+
+[users page](documentation/users.png)
