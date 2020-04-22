@@ -1,85 +1,101 @@
 # piscreen-server
 
-## About
-Use this package in combination with [piscreen-client](https://github.com/Underlyingglitch/piscreen-client)
+## Over deze software
+Gebruik deze software samen met [piscreen-client](https://github.com/Underlyingglitch/piscreen-client)
 
-This application lets you control your piscreen players. It was built for Raspberry PI, but can be used on almost all Linux devices.
+Deze applicatie geeft u de mogelijkheid om uw piscreen clients te beheren. Deze software is gebouwd voor de Raspberry Pi, maar kan in theorie op bijna alle Linux OS's gebruikt worden.
 
-This server package has to be installed on a seperate device. The server and client software can't run on the same device.
+Deze software moet op een apart apparaat worden geïnstalleerd. De server software kan niet naast de client software op hetzelfde apparaat draaien
 
-## Installation
-There are 2 ways of installing this software: manual install, and by using the provided .img file
+## Installatie
+Er zijn 2 manieren om deze software te installeren, met een .img bestand (aangeraden) of handmatig
 
-### Using the .img file (recommended)
-1. Download the latest version from the releases tab.
+### Met een .img bestand
+1. Download de laatste versie via de [releases](https://github.com/Underlyingglitch/piscreen-server/releases)
 
-2. Download Balena Etcher (or a similar tool) from [their website](https://www.balena.io/etcher/)
+2. Download Balena Etcher (of een vergelijkbare tool) van [hub website](https://www.balena.io/etcher/)
 
-3. Flash the image to an SD card (Warning: the existing data will be destroyed)
+3. Flash het .img bestand naar een lege SD kaart (Waarschuwing: bestaande data zal verloren gaan)
 
-4. Boot up the Raspberry Pi
+4. Start de Raspberry Pi op, HDMI scherm is niet nodig, maar wel een internetkabel
 
-5. Connect to the Raspberry Pi using SSH
+5. Gebruik SSH voor toegang tot de Raspberry Pi
 
    `ssh pi@piscreenserver`
 
-   or by using the local IP address
+   of gebruik het lokale IP adres:
 
    `ssh pi@xxx.xxx.xx.xx`
 
-6. Change the password for security
+6. Verander het wachtwoord voor beveiliging
 
    `sudo passwd pi`
 
-   Enter your new password
+   Vul uw nieuwe wachtwoord in
 
-7. Move on to the setup section
+7. Ga verder naar de setup sectie
 
-### Manual installation
-1. Flash a version of Raspbian Buster (lite is recommended) software to an SD card. Install Raspbian to a Raspberry PI and make sure SSH is enabled.
+### Handmatige installatie
+1. Flash een versie van Raspbian Buster Lite naar een lege SD kaart.
 
-2. SSH into the Raspberry PI
+2. Maak een leeg bestand aan in de root map van de SD kaart genaamd `ssh`, kleine letters, geen inhoud, en geen extensie
 
-3. Change the user password for security
+3. Gebruik SSH voor toegang tot de Raspberry Pi
+
+   `ssh pi@piscreenserver`
+
+   of gebruik het lokale IP adres:
+
+   `ssh pi@xxx.xxx.xx.xx`
+
+4. Verander het wachtwoord voor beveiliging
 
    `sudo passwd pi`
 
-   Enter your new password
+   Vul uw nieuwe wachtwoord in
 
-4. Clone the GitHub repository to the home folder
+5. Clone de GitHub repository naar de home map
 
    `git clone https://github.com/Underlyingglitch/piscreen-server`
 
-5. Cd into the directory
+6. `cd` naar de map
 
    `cd piscreen-server`
 
-6. Run install.sh script
+7. Run het install.sh script
 
    `sudo sh ./install.sh`
 
-7. Move on to the setup section
+8. Ga verder naar de setup sectie
 
 ## Setup
-After you installed the server software to the Raspberry Pi using one of the methods above, you can use the software to control client devices.
+Nadat de server software is geïnstalleerd op de Raspberry Pi door een van de bovenstaande installatiemethoden, kunt u gebruik maken van het 'web-based' beheerportaal.
 
-The server device only needs power and an ethernet cable (WiFi is possible, but not recommended). You don't need an HDMI screen. Everything is done using the web-based control panel.
+De server hoeft alleen toegang te hebben tot stroom en een internetkabel (WiFi is ook mogelijk, maar wordt afgeraden). Er is geen HDMI kabel met scherm nodig. Alle communicatie gaat via het beheerportaal.
 
-To log in to the control panel, go to the following address:
+Om in te loggen op het beheerportaal gaat u naar het volgende adres:
 
 http://piscreenserver/
 
-WARNING: if the firewall in your network is configured to block these hostnames, replace the hostname with the local IP address like this:
+WAARSCHUWING: als de firewall in het netwerk deze hostnames niet accepteerd, gebruik dan het locale IP adres:
 
 http://xxx.xxx.xx.xx/
 
-Log in using these credentials:
+Login met de volgende gegevens:
 
 ```
-username: admin
-password: admin
+gebruikersnaam: admin
+wachtwoord: admin
 ```
 
-The admin user has access to every page in the control panel. Go to the users page using the navigation bar on the left side.
+De admin gebruiker heeft toegang tot alle pagina's binnen het beheerportaal. Ga naar de gebruikerspagina door gebruik te maken van de navigatie kolom aan de linkerkant.
+
+Om het wachtwoord te veranderen, klik op de 'Reset wachtwoord' knop achter de admin gebruiker.
 
 ![users page](https://user-images.githubusercontent.com/36314703/79972569-715b6f80-8496-11ea-9501-b5d825b989ff.png)
+
+Vul 2 keer een nieuw wachtwoord in en klik op opslaan
+
+![reset password](https://user-images.githubusercontent.com/36314703/79980290-2c8a0580-84a3-11ea-8319-a19de0cb6fbc.png)
+
+De software is nu helemaal klaar voor gebruik. Voor meer informatie, bekijk de [wiki pagina](https://github.com/Underlyingglitch/piscreen-server/wiki)
