@@ -114,6 +114,7 @@ $(document).ready(function(){
         $('#roleEditor').modal('toggle');
       } else {
         alert('Waarschuwing: fout bij het aanmaken van de gebruiker. Probeer het later opnieuw');
+        alert(data);
       }
     });
   });

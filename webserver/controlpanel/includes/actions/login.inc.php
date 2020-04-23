@@ -4,7 +4,7 @@ session_start();
 
 include "../classes/auth.php";
 
-$auth = new Auth();
+$auth = new Auth("../../../data");
 
 $response = $auth->login($_POST['username'], $_POST['password']);
 

@@ -11,7 +11,7 @@ if (!isset($_SESSION['auth'])) {
 
 include "includes/classes/auth.php";
 
-$auth = new Auth();
+$auth = new Auth("../data");
 
 $page = "playlists";
 

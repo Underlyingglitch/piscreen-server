@@ -1,9 +1,11 @@
 <?php
 
+session_start();
+
 //Checking if user has role
 include "../classes/auth.php";
 
-$auth = new Auth();
+$auth = new Auth("../../../data");
 
 if ($auth->isRole("manage_users")) {
   $json = file_get_contents('../../../data/users/controlpanel_users.json');

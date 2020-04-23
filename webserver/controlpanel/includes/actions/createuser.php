@@ -1,12 +1,14 @@
 <?php
 
+session_start();
+
 if (isset($_POST['username']) && isset($_POST['password'])) {
   //Checking if user has role
   include "../classes/auth.php";
 
-  $auth = new Auth();
+  $auth = new Auth("../../../data");
 
-  if ($auth->isRole("add_users")) {
+  if ($auth->isRole("add_users") == 1) {
     $json = file_get_contents('../../../data/users/controlpanel_users.json');
     $userarray = json_decode($json, true);
 
@@ -19,7 +21,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
 
     echo "success";
   } else {
-    echo "norole";
+    echo "norole".$auth->isRole("add_users");
   }
 }
 

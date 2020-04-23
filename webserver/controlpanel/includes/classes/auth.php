@@ -2,8 +2,11 @@
 
 class Auth {
 
-  private $data_path = "../../../data/";
+  private $data_path;
 
+  public function __construct($datapath) {
+    $this->data_path = $datapath;
+  }
 
   function login($username, $password) {
     $username = htmlspecialchars(stripslashes($username));
@@ -87,13 +90,13 @@ class Auth {
   function isRole($role) {
     $i = $_SESSION['id'];
 
-    $json = file_get_contents('../data/users/controlpanel_users.json');
+    $json = file_get_contents($this->data_path.'/users/controlpanel_users.json');
     $userarray = json_decode($json, true);
 
-    if ($userarray[$i]['roles'][$role] === 1) {
-      return true;
+    if ($userarray[$i]['roles'][$role] == 1) {
+      return 1;
     } else {
-      return false;
+      return 0;
     }
   }
 
