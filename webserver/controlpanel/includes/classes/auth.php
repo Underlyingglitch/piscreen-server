@@ -12,7 +12,7 @@ class Auth {
     $username = htmlspecialchars(stripslashes($username));
     $password = htmlspecialchars(stripslashes($password));
 
-    $json = file_get_contents($this->data_path.'users/controlpanel_users.json');
+    $json = file_get_contents($this->data_path.'/users/controlpanel_users.json');
     $userarray = json_decode($json, true);
 
     for ($i=0; $i<count($userarray); $i++) {
@@ -40,7 +40,7 @@ class Auth {
   }
 
   function loginTime($i) {
-    $json = file_get_contents($this->data_path.'users/controlpanel_users.json');
+    $json = file_get_contents($this->data_path.'/users/controlpanel_users.json');
     $userarray = json_decode($json, true);
 
     $dateTime = new \DateTime();
@@ -49,20 +49,20 @@ class Auth {
 
     $userarray[$i]['last_login'] = (string)$time;
 
-    file_put_contents($this->data_path.'users/controlpanel_users.json', json_encode($userarray));
+    file_put_contents($this->data_path.'/users/controlpanel_users.json', json_encode($userarray));
 
     return true;
   }
 
   function loginIP($i) {
-    $json = file_get_contents($this->data_path.'users/controlpanel_users.json');
+    $json = file_get_contents($this->data_path.'/users/controlpanel_users.json');
     $userarray = json_decode($json, true);
 
     $ip = $_SERVER['REMOTE_ADDR'];
 
     $userarray[$i]['last_ip_address'] = (string)$ip;
 
-    file_put_contents($this->data_path.'users/controlpanel_users.json', json_encode($userarray));
+    file_put_contents($this->data_path.'/users/controlpanel_users.json', json_encode($userarray));
 
     return true;
   }
@@ -77,7 +77,7 @@ class Auth {
   function isAnyRole($role) {
     $i = $_SESSION['id'];
 
-    $json = file_get_contents('../data/users/controlpanel_users.json');
+    $json = file_get_contents($this->data_path.'/users/controlpanel_users.json');
     $userarray = json_decode($json, true);
 
     if ($userarray[$i]['roles']['main'][$role] === 1) {
