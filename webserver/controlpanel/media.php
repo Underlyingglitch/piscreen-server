@@ -70,10 +70,10 @@ if (!$auth->isAnyRole("media")) {
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-2 text-gray-800">Players</h1>
-            <button id="create-player-toggle" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm"><i class="fas fa-plus fa-sm text-white-50"></i> Nieuwe player</button>
+            <h1 class="h3 mb-2 text-gray-800">Media</h1>
+            <button id="add-media-btn" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm"><i class="fas fa-plus fa-sm text-white-50"></i> Voeg media toe</button>
           </div>
-          <p class="mb-4">Bekijk en voeg nieuwe players toe aan uw PiScreen installatie.</p>
+          <p class="mb-4">Bewerk en voeg nieuwe media toe om weer te geven op uw PiScreen installatie.</p>
 
           <!-- DataTales Example -->
           <div class="card shadow mb-4">
@@ -172,6 +172,114 @@ if (!$auth->isAnyRole("media")) {
     </div>
   </div>
 
+  <!-- Add Media Modal-->
+  <div class="modal fade" id="addMediaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Voeg media toe</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          Selecteer een mediavorm en klik op volgende.
+          <select id="mediaTypeSelect">
+            <option value="--">--</option>
+            <option value="text">Tekst (mededelingen etc)</option>
+            <option value="image">Afbeelding</option>
+            <option value="url">Webpagina</option>
+          </select>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Annuleren</button>
+          <button class="btn btn-primary" id="submitMediaType">Volgende</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Text Modal-->
+  <div class="modal fade" id="addTextModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Voeg tekst toe</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          Selecteer een mediavorm en klik op volgende.
+          <select id="mediaTypeSelect">
+            <option value="--">--</option>
+            <option value="text">Tekst (mededelingen etc)</option>
+            <option value="image">Afbeelding</option>
+            <option value="url">Webpagina</option>
+          </select>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Annuleren</button>
+          <button class="btn btn-primary" id="submitMediaType">Volgende</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Media Modal-->
+  <div class="modal fade" id="addImageModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Voeg afbeelding toe</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          Selecteer een mediavorm en klik op volgende.
+          <select id="mediaTypeSelect">
+            <option value="--">--</option>
+            <option value="text">Tekst (mededelingen etc)</option>
+            <option value="image">Afbeelding</option>
+            <option value="url">Webpagina</option>
+          </select>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Annuleren</button>
+          <button class="btn btn-primary" id="submitMediaType">Volgende</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Url Modal-->
+  <div class="modal fade" id="addUrlModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Voeg webpagina toe</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          Selecteer een mediavorm en klik op volgende.
+          <select id="mediaTypeSelect">
+            <option value="--">--</option>
+            <option value="text">Tekst (mededelingen etc)</option>
+            <option value="image">Afbeelding</option>
+            <option value="url">Webpagina</option>
+          </select>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Annuleren</button>
+          <button class="btn btn-primary" id="submitMediaType">Volgende</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Bootstrap core JavaScript-->
   <script src="vendor/jquery/jquery.min.js"></script>
   <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -180,7 +288,7 @@ if (!$auth->isAnyRole("media")) {
   <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
 
   <!-- Custom scripts for all pages-->
-  <script src="js/script.js"></script>
+  <script src="js/main.js"></script>
 
   <!-- Page level plugins -->
   <script src="vendor/datatables/jquery.dataTables.min.js"></script>
@@ -189,7 +297,7 @@ if (!$auth->isAnyRole("media")) {
   <!-- Page level custom scripts -->
   <script src="js/demo/datatables-demo.js"></script>
 
-  <script src="js/users.js"></script>
+  <script src="js/media.js"></script>
 
 </body>
 
