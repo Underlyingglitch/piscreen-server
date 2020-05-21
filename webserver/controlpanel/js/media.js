@@ -24,4 +24,27 @@ $(document).ready(function(){
         break;
     }
   });
+
+  $('#fileUpload').submit(function(event){
+    if($('#uploadFile').val()) {
+      event.preventDefault();
+      $('#fileUpload').ajaxSubmit({
+        beforeSubmit:function(){
+          $('.progress-bar').width('0%');
+        },
+        uploadProgress:function(event, position, total, percentageComplete){
+          $('.progress-bar').animate({
+            width: percentageComplete + '%'
+          }, {
+            duration: 100
+          });
+        },
+        success:function(data){
+          alert("Successfully uploaded file!"+data);
+        },
+        resetForm: true
+      });
+    }
+    return false;
+  });
 });
