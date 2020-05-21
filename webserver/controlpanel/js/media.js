@@ -1,15 +1,22 @@
 $(document).ready(function(){
-  $('#add-media-btn').on('click', function(){
-    $('#addMediaModal').modal('show');
-  });
+  Dropzone.options.imageUploadDropzone = {
+    acceptedFiles: ".png,.jpg,.gif,.bmp,.jpeg",
+    init: function(){
+      myDropzone = this;
+      this.on("complete", function(){
+        if (this.getQueuedFiles().length == 0 && this.getUploadingFiles().length == 0){
+          var _this = this;
+          _this.removeAllFiles();
+        }
+      });
+    }
+  };
 
-  $('#submitMediaType').on('click', function(){
-    var type = $('#mediaTypeSelect').val();
+  $('.addMediaModalBtn').on('click', function(){
+    
+    var type = $(this).attr("php-type");
 
     switch (type) {
-      case "--":
-        alert('Kies een mediasoort');
-        break;
       case "text":
         $('#addMediaModal').modal('hide');
         $('#addTextModal').modal('show');
@@ -23,28 +30,5 @@ $(document).ready(function(){
         $('#addUrlModal').modal('show');
         break;
     }
-  });
-
-  $('#fileUpload').submit(function(event){
-    if($('#uploadFile').val()) {
-      event.preventDefault();
-      $('#fileUpload').ajaxSubmit({
-        beforeSubmit:function(){
-          $('.progress-bar').width('0%');
-        },
-        uploadProgress:function(event, position, total, percentageComplete){
-          $('.progress-bar').animate({
-            width: percentageComplete + '%'
-          }, {
-            duration: 100
-          });
-        },
-        success:function(data){
-          alert("Successfully uploaded file!"+data);
-        },
-        resetForm: true
-      });
-    }
-    return false;
   });
 });

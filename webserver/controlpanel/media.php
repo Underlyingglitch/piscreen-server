@@ -43,6 +43,8 @@ if (!$auth->isAnyRole("media")) {
 
   <!-- Custom styles for this page -->
   <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/vendor/dropzone.js/basic.css">
+  <link rel="stylesheet" href="/vendor/dropzone.js/dropzone.css">
 
 </head>
 
@@ -71,17 +73,29 @@ if (!$auth->isAnyRole("media")) {
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-2 text-gray-800">Media</h1>
-            <button id="add-media-btn" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm"><i class="fas fa-plus fa-sm text-white-50"></i> Voeg media toe</button>
+            <div class="dropdown">
+              <button class="dropdown-toggled-none d-sm-inline-block btn btn-sm btn-success shadow-sm" type="button" id="addMediaBtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-plus fa-sm text-white-50"></i> Voeg media toe</button>
+              <div class="dropdown-menu" aria-labelledby="addMediaBtn">
+                <a class="dropdown-item addMediaModalBtn" php-type="image">Upload afbeeling</a>
+                <a class="dropdown-item addMediaModalBtn" php-type="text">Text bericht</a>
+                <a class="dropdown-item addMediaModalBtn" php-type="url">Website (url)</a>
+              </div>
+            </div>
+
           </div>
           <p class="mb-4">Bewerk en voeg nieuwe media toe om weer te geven op uw PiScreen installatie.</p>
 
           <!-- DataTales Example -->
           <div class="card shadow mb-4">
             <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-primary">Alle gebruikers</h6>
+              <h6 class="m-0 font-weight-bold text-primary">Alle media</h6>
             </div>
             <div class="card-body">
-            
+              <?php
+              foreach($array as $key => $value){
+
+              }
+              ?>
             </div>
           </div>
 
@@ -131,33 +145,6 @@ if (!$auth->isAnyRole("media")) {
     </div>
   </div>
 
-  <!-- Add Media Modal-->
-  <div class="modal fade" id="addMediaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Voeg media toe</h5>
-          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          Selecteer een mediavorm en klik op volgende.
-          <select id="mediaTypeSelect">
-            <option value="--">--</option>
-            <option value="text">Tekst (mededelingen etc)</option>
-            <option value="image">Afbeelding</option>
-            <option value="url">Webpagina</option>
-          </select>
-        </div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" type="button" data-dismiss="modal">Annuleren</button>
-          <button class="btn btn-primary" id="submitMediaType">Volgende</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <!-- Add Text Modal-->
   <div class="modal fade" id="addTextModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -196,13 +183,7 @@ if (!$auth->isAnyRole("media")) {
           </button>
         </div>
         <div class="modal-body">
-          Selecteer een mediavorm en klik op volgende.
-          <select id="mediaTypeSelect">
-            <option value="--">--</option>
-            <option value="text">Tekst (mededelingen etc)</option>
-            <option value="image">Afbeelding</option>
-            <option value="url">Webpagina</option>
-          </select>
+          <form action="includes/actions/fileupload.php" class="dropzone" id="imageUploadDropzone"></form>
         </div>
         <div class="modal-footer">
           <button class="btn btn-secondary" type="button" data-dismiss="modal">Annuleren</button>
@@ -254,7 +235,7 @@ if (!$auth->isAnyRole("media")) {
   <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
   <!-- Page level custom scripts -->
-  <script src="js/demo/datatables-demo.js"></script>
+  <script src="vendor/dropzone.js/dropzone.js"></script>
 
   <script src="js/media.js"></script>
 
