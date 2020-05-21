@@ -91,11 +91,48 @@ if (!$auth->isAnyRole("media")) {
               <h6 class="m-0 font-weight-bold text-primary">Alle media</h6>
             </div>
             <div class="card-body">
-              <?php
-              foreach($array as $key => $value){
-
-              }
-              ?>
+              <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                  <thead>
+                    <tr>
+                      <th></th>
+                      <th>Gebruiker</th>
+                      <th>Bestandsnaam</th>
+                      <th>Timestamp</th>
+                      <th>Gekoppelde afspeellijsten</th>
+                      <th>Acties</th>
+                    </tr>
+                  </thead>
+                  <tfoot>
+                    <tr>
+                      <th></th>
+                      <th>Gebruiker</th>
+                      <th>Bestandsnaam</th>
+                      <th>Timestamp</th>
+                      <th>Gekoppelde afspeellijsten</th>
+                      <th>Acties</th>
+                    </tr>
+                  </tfoot>
+                  <tbody id="media">
+                    <?php
+                    $media = json_decode(file_get_contents("../data/media/media.json"), true);
+                    //TODO: reset id's using foreach
+                    for($i=0;$i<count($media);$i++){
+                    ?>
+                    <tr>
+                      <td><img src="includes/actions/loadimage.php?requested=<?php echo $media[$i]['filename']; ?>" height="100px" \></td>
+                      <td><?php echo $media[$i]['username']; ?></td>
+                      <td><?php echo $media[$i]['filename']; ?></td>
+                      <td><?php echo $media[$i]['timestamp']; ?></td>
+                      <td></td>
+                      <td><button class="btn btn-danger deleteMediaBtn" php-media-id="<?php echo $i; ?>">Verwijder</button> <button class="btn btn-info">Wijzig naam</button></td>
+                    </tr>
+                    <?php
+                    }
+                    ?>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
 
@@ -145,6 +182,25 @@ if (!$auth->isAnyRole("media")) {
     </div>
   </div>
 
+  <!-- Confirm Delete Media-->
+  <div class="modal fade" id="deleteMediaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Weet u het zeker?</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">Weet u zeker dat u dit wilt verwijderen?</div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Annuleren</button>
+          <button class="btn btn-danger deleteMediaBtnConfirm" id="">Verwijderen</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Add Text Modal-->
   <div class="modal fade" id="addTextModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -187,7 +243,7 @@ if (!$auth->isAnyRole("media")) {
         </div>
         <div class="modal-footer">
           <button class="btn btn-secondary" type="button" data-dismiss="modal">Annuleren</button>
-          <button class="btn btn-primary" id="submitMediaType">Volgende</button>
+          <button class="btn btn-success" id="closeMediaModal">Sluiten</button>
         </div>
       </div>
     </div>
@@ -236,6 +292,16 @@ if (!$auth->isAnyRole("media")) {
 
   <!-- Page level custom scripts -->
   <script src="vendor/dropzone.js/dropzone.js"></script>
+
+  <script type="text/javascript">
+  Dropzone.options.imageUploadDropzone = false;
+  var uploader = $('#imageUploadDropzone').dropzone({
+    paramName: "file", // The name that will be used to transfer the file
+    maxFilesize: 2, // MB
+    acceptedFiles: "image/*",
+    dictDefaultMessage: "Klik hier, of sleep de bestanden naar dit veld om te beginnen met uploaden"
+  });
+  </script>
 
   <script src="js/media.js"></script>
 
