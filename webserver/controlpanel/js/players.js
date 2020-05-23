@@ -19,17 +19,19 @@ $(document).ready(function(){
 
     $.ajax({
       type: "PUT",
-      url: "http://"+newPlayerIP+":31804/server/connect.php",
+      url: newPlayerIP+":31804/server/connect.php",
       data: JSON.stringify(data),
       contentType: "application/json",
       dataType: "json",
       success: function(response) {
         $.post('includes/actions/saveplayerinfo.php', {code: newPlayerCode, name: newPlayerName, ip: newPlayerIP}, function(data){
           if (data == "success") {
-            $('#addPlayer').modal('toggle');
-            $('#newPlayerName').val('');
-            $('#newPlayerIP').val('');
-            $('#newPlayerCode').val('');
+            $.post('http://'+newPlayerIP+':31804/server/reboot.php', function(){
+              $('#addPlayer').modal('toggle');
+              $('#newPlayerName').val('');
+              $('#newPlayerIP').val('');
+              $('#newPlayerCode').val('');
+            });
             //TODO: refresh players list
           } else {
             //TODO: add status code
@@ -43,7 +45,7 @@ $(document).ready(function(){
     });
   });
 
-  function getStatus() {
+  function getStatus(ip) {
     //TODO: refresh status every .. seconds
   }
 });
