@@ -118,7 +118,6 @@ if (!$auth->isAnyRole("media")) {
                   <tbody id="media">
                     <?php
                     $media = json_decode(file_get_contents("../data/media/media.json"), true);
-                    //TODO: reset id's using foreach
                     foreach($media as $key => $value){
                     ?>
                     <tr>
