@@ -1,5 +1,4 @@
 $(document).ready(function(){
-
   $('#closeMediaModal').on('click', function(){
     $('#addImageModal').modal('hide');
     uploader[0].dropzone.removeAllFiles();
@@ -37,8 +36,29 @@ $(document).ready(function(){
       if (data == "success") {
         $('#deleteMediaModal').modal('hide');
         $('#media').load('includes/generators/medialist.php');
+        location.reload();
       } else {
         alert('Fout bij het verwijderen, probeer het later opnieuw!');
+      }
+    });
+  });
+
+  $('.renameMediaBtn').on('click', function(){
+    var id = $(this).attr('php-media-id');
+    $.post('../includes/generators/renamemediamodal.php', {id: id}, function(data){
+      $('#renameMediaModalBody').html(data);
+      $('#renameMediaModal').modal('show');
+    });
+  });
+
+  $('#submitNewMediaName').on('click', function(){
+    var newname = $('#newMediaName').val();
+    var id = $('newMediaName').attr('php-media-id');
+    $.post('../includes/actions/renamemedia.php', {id: id, newname: newname}, function(data){
+      if (data == "success") {
+
+      } else {
+        alert('Sorry, probeer het later opnieuw');
       }
     });
   });

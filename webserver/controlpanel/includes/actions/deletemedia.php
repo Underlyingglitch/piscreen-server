@@ -6,15 +6,11 @@ $id = $_POST['id'];
 
 $media = json_decode(file_get_contents("../../../data/media/media.json"), true);
 
-$data = $media[$i];
+shell_exec("rm ../../../data/media/uploads/".$media[(int)$id]['filename']);
 
-unset($media[(int)$i]);
+unset($media[(int)$id]);
 
 file_put_contents("../../../data/media/media.json", json_encode($media));
-
-if(file_exists("../../../data/media/uploads/".$data['filename'])) {
-	unlink("../../../data/media/uploads/".$data['filename']);
-}
 
 echo "success";
 

@@ -73,6 +73,7 @@ if (!$auth->isAnyRole("media")) {
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-2 text-gray-800">Media</h1>
+            <?php if ($auth->isRole('add_media')) { ?>
             <div class="dropdown">
               <button class="dropdown-toggled-none d-sm-inline-block btn btn-sm btn-success shadow-sm" type="button" id="addMediaBtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-plus fa-sm text-white-50"></i> Voeg media toe</button>
               <div class="dropdown-menu" aria-labelledby="addMediaBtn">
@@ -81,6 +82,7 @@ if (!$auth->isAnyRole("media")) {
                 <a class="dropdown-item addMediaModalBtn" php-type="url">Website (url)</a>
               </div>
             </div>
+            <?php } ?>
 
           </div>
           <p class="mb-4">Bewerk en voeg nieuwe media toe om weer te geven op uw PiScreen installatie.</p>
@@ -117,15 +119,15 @@ if (!$auth->isAnyRole("media")) {
                     <?php
                     $media = json_decode(file_get_contents("../data/media/media.json"), true);
                     //TODO: reset id's using foreach
-                    for($i=0;$i<count($media);$i++){
+                    foreach($media as $key => $value){
                     ?>
                     <tr>
-                      <td><img src="includes/actions/loadimage.php?requested=<?php echo $media[$i]['filename']; ?>" height="100px" \></td>
-                      <td><?php echo $media[$i]['username']; ?></td>
-                      <td><?php echo $media[$i]['filename']; ?></td>
-                      <td><?php echo $media[$i]['timestamp']; ?></td>
-                      <td></td>
-                      <td><button class="btn btn-danger deleteMediaBtn" php-media-id="<?php echo $i; ?>">Verwijder</button> <button class="btn btn-info">Wijzig naam</button></td>
+                      <td><img src="includes/actions/loadmedia.php?requested=<?php echo $value['filename']; ?>" height="100px" \></td>
+                      <td><?php echo $value['username']; ?></td>
+                      <td><?php echo $value['filename']; ?></td>
+                      <td><?php echo $value['timestamp']; ?></td>
+                      <td><?php echo $auth->isRole('delete_own_media'); ?></td>
+                      <td><?php if ($auth->isRole('delete_own_media') && $value['username'] == $_SESSION['auth'] || $auth->isRole('delete_all_media')) { ?><button class="btn btn-danger deleteMediaBtn" php-media-id="<?php echo $key; ?>">Verwijder</button><?php } ?> <?php if ($auth->isRole('edit_own_media') && $value['username'] == $_SESSION['auth'] || $auth->isRole('edit_all_media')) { ?><button class="btn btn-info renameMediaBtn" php-media-id="<?php echo $key; ?>">Wijzig naam</button><?php } ?></td>
                     </tr>
                     <?php
                     }
@@ -168,15 +170,15 @@ if (!$auth->isAnyRole("media")) {
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+          <h5 class="modal-title" id="exampleModalLabel">Uitloggen</h5>
           <button class="close" type="button" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">×</span>
           </button>
         </div>
-        <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+        <div class="modal-body">Klik op <strong>Uitloggen</strong> om definitief uit te loggen!</div>
         <div class="modal-footer">
-          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-          <a class="btn btn-primary" href="login.html">Logout</a>
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Annuleren</button>
+          <a class="btn btn-warning" href="logout.php">Uitloggen</a>
         </div>
       </div>
     </div>
@@ -271,6 +273,25 @@ if (!$auth->isAnyRole("media")) {
         <div class="modal-footer">
           <button class="btn btn-secondary" type="button" data-dismiss="modal">Annuleren</button>
           <button class="btn btn-primary" id="submitMediaType">Volgende</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Rename File Modal-->
+  <div class="modal fade" id="renameMediaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Wijzig naam</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body" id="renameMediaModalBody"></div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Annuleren</button>
+          <button class="btn btn-success" id="submitNewMediaName">Opslaan</button>
         </div>
       </div>
     </div>

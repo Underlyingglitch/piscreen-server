@@ -10,6 +10,7 @@ $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
 
 // Check if $uploadOk is set to 0 by an error
 if (move_uploaded_file($_FILES["file"]["tmp_name"], $target_file)){
+  //chmod($target_file, 666);
   $data = json_decode(file_get_contents("../../../data/media/media.json"), true);
 
   $dateTime = new \DateTime();
