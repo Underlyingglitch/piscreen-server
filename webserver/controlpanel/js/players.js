@@ -12,18 +12,8 @@ $(document).ready(function(){
       alert('Niet alle velden zijn ingevuld!');
     }
 
-    var data = {
-      name: newPlayerName,
-      code: newPlayerCode
-    };
-
-    $.ajax({
-      type: "PUT",
-      url: newPlayerIP+":31804/server/connect.php",
-      data: JSON.stringify(data),
-      contentType: "application/json",
-      dataType: "json",
-      success: function(response) {
+    $.post('http://'+newPlayerIP+':31804/server/connect.php', {name: newPlayerName, code: newPlayerCode}, function(data){
+      if (data == "success") {
         $.post('includes/actions/saveplayerinfo.php', {code: newPlayerCode, name: newPlayerName, ip: newPlayerIP}, function(data){
           if (data == "success") {
             $.post('http://'+newPlayerIP+':31804/server/reboot.php', function(){
@@ -32,15 +22,13 @@ $(document).ready(function(){
               $('#newPlayerIP').val('');
               $('#newPlayerCode').val('');
             });
-            //TODO: refresh players list
           } else {
             //TODO: add status code
             alert('Error while trying to save data');
           }
         });
-      },
-      failure: function(error) {
-        alert("Waarschuwing: fout bij het toevoegen van de player. Probeer het later nog eens! Fout: "+error);
+      } else {
+        alert('Waarschuwing: fout bij het toevoegen van de player. Probeer het later nog eens!');
       }
     });
   });
