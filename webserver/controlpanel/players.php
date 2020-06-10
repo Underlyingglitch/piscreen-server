@@ -94,7 +94,7 @@ if (!$auth->isAnyRole("players")) {
                   <tfoot>
                     <tr>
                       <th>Naam</th>
-                      <th>IP</th>
+                      <th>IP <?php echo "hello".$_SERVER['SERVER_ADDR']; ?></th>
                       <th>Status</th>
                       <th>Acties</th>
                     </tr>
@@ -208,6 +208,10 @@ if (!$auth->isAnyRole("players")) {
   <!-- Page level plugins -->
   <script src="vendor/datatables/jquery.dataTables.min.js"></script>
   <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+  <script>
+  var serverIP = "<?php echo $_SERVER['SERVER_ADDR']; ?>";
+  </script>
 
   <script src="js/players.js"></script>
 
