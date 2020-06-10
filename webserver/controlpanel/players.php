@@ -210,12 +210,8 @@ if (!$auth->isAnyRole("players")) {
   <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
   <script>
-  <?php
-  $host= gethostname();
-  $ip = gethostbyname($host);
-  ?>
 
-  var serverIP = "<?php echo $ip; ?>";
+  var serverIP = "<?php echo $_SERVER['SERVER_ADDR']; ?>";
   </script>
 
   <script src="js/players.js"></script>
