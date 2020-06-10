@@ -14,17 +14,28 @@ apt-get -y upgrade
 echo "Updating webfiles"
 echo "Downloading files"
 git clone https://github.com/Underlyingglitch/piscreen-server piscreen-server-update
-cd piscreen-server-update/webserver
+cd piscreen-server-update
 echo "Removing old files"
-rm -rf ../../webserver/api
-rm -rf ../../webserver/controlpanel
+rm -rf ../../webserver
 echo "Copying new files"
-cp -r api ../../webserver/api
-cp -r controlpanel ../../webserver/controlpanel
+cp -r webserver ../../webserver
 
-echo "restarting services"
-systemctl restart piscreen-server-api.service
-systemctl restart piscreen-server-controlpanel.service
+echo "Restarting services"
+mv dist/scripts/piscreen-server-api.service /lib/systemd/system/piscreen-server-api.service
+mv dist/scripts/piscreen-server-controlpanel.service /lib/systemd/system/piscreen-server-controlpanel.service
+chmod 644 /lib/systemd/system/piscreen-server-api.service
+chmod 644 /lib/systemd/system/piscreen-server-controlpanel.service
+chmod +x /home/pi/piscreen-server/webserver/startapiserver.py
+chmod +x /home/pi/piscreen-server/webserver/startcontrolpanel.py
+
+echo "Reloading deamon"
+systemctl daemon-reload
+
+echo "Activating services"
+systemctl enable piscreen-server-api.service
+systemctl enable piscreen-server-controlpanel.service
+systemctl start piscreen-server-api.service
+systemctl start piscreen-server-controlpanel.service
 
 echo "Removing tmp files"
 cd ../../

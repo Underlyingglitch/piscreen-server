@@ -12,7 +12,7 @@ if (isset($_GET['client']) && isset($_GET['code']) && isset($_GET['name'])) {
 
   file_put_contents("../../data/players/players.json", json_encode($playerarray));
 
-  file_get_contents("http://".$_GET['client'].":31804/server/reboot.php");
+  //file_get_contents("http://".$_GET['client'].":31804/server/reboot.php");
 
   echo "success";
 }
