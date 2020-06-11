@@ -8,32 +8,37 @@ if [[ $EUID -ne 0 ]]; then
 fi
 
 echo "Installing packages"
-apt-get -y update
-apt-get -y install php
+apt -y update
+apt -y install php libapache2-mod-php
 
 echo "Removing unnessesary packages"
 apt -y autoremove
 
-echo "Removing apache2"
-apt-get -y remove apache2
-apt-get -y purge apache2
+echo "Removing default apache config"
+rm /etc/apache2/ports.conf
+rm /etc/apache2/sites-enabled/000-default.conf
 
-echo "Creating startup scripts"
-mv dist/scripts/piscreen-server-api.service /lib/systemd/system/piscreen-server-api.service
-mv dist/scripts/piscreen-server-controlpanel.service /lib/systemd/system/piscreen-server-controlpanel.service
-chmod 644 /lib/systemd/system/piscreen-server-api.service
-chmod 644 /lib/systemd/system/piscreen-server-controlpanel.service
-chmod +x /home/pi/piscreen-server/webserver/startapiserver.py
-chmod +x /home/pi/piscreen-server/webserver/startcontrolpanel.py
+echo "Copying new configuration"
+mv /home/pi/piscreen-server/dist/apache/000-default.conf /etc/apache2/sites-enabled/000-default.conf
+mv /home/pi/piscreen-server/dist/apache/ports.conf /etc/apache2/ports.conf
 
-echo "Reloading startup sequence"
-systemctl daemon-reload
+echo "Copying webfiles to new location"
+mv -r /home/pi/piscreen-server/webserver/controlpanel /var/www/controlpanel
+mv -r /home/pi/piscreen-server/webserver/api /var/www/api
 
-echo "Starting services"
-systemctl enable piscreen-server-api.service
-systemctl enable piscreen-server-controlpanel.service
-systemctl start piscreen-server-api.service
-systemctl start piscreen-server-controlpanel.service
+echo "Creating file location"
+mkdir /var/www/data
+mkdir /var/www/data/media
+mkdir /var/www/data/media/text
+mkdir /var/www/data/media/uploads
+mkdir /var/www/data/players
+mkdir /var/www/data/users
+mv /home/pi/piscreen-server/dist/datafiles/media.json /var/www/data/media/media.json
+mv /home/pi/piscreen-server/dist/datafiles/players.json /var/www/data/players/players.json
+mv /home/pi/piscreen-server/dist/datafiles/controlpanel_users.json /var/www/data/users/controlpanel_users.json
+
+echo "Restarting apache"
+systemctl restart apache2
 
 raspi-config nonint do_hostname piscreenserver
 
