@@ -23,8 +23,8 @@ mv /home/pi/piscreen-server/dist/apache/000-default.conf /etc/apache2/sites-enab
 mv /home/pi/piscreen-server/dist/apache/ports.conf /etc/apache2/ports.conf
 
 echo "Copying webfiles to new location"
-mv /home/pi/piscreen-server/webserver/controlpanel /var/www/controlpanel
-mv /home/pi/piscreen-server/webserver/api /var/www/api
+mv /home/pi/piscreen-server/webserver/controlpanel /var/www
+mv /home/pi/piscreen-server/webserver/api /var/www
 
 echo "Creating file location"
 mkdir /var/www/data
