@@ -11,7 +11,7 @@ if (!isset($_SESSION['auth'])) {
 
 include "includes/classes/auth.php";
 
-$auth = new Auth("../data");
+$auth = new Auth("/var/www/data");
 
 $page = "playlists";
 
@@ -102,7 +102,7 @@ if (!$auth->isAnyRole("playlists")) {
                   <tbody id="users">
                     <?php
 
-                    $data_path = "../data/";
+                    $data_path = "/var/www/data/";
 
                     $json = file_get_contents($data_path.'users/controlpanel_users.json');
                     $userarray = json_decode($json, true);

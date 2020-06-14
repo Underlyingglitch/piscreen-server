@@ -11,7 +11,7 @@ if (!isset($_SESSION['auth'])) {
 
 include "includes/classes/auth.php";
 
-$auth = new Auth("../data");
+$auth = new Auth("/var/www/data");
 
 $page = "media";
 
@@ -117,7 +117,7 @@ if (!$auth->isAnyRole("media")) {
                   </tfoot>
                   <tbody id="media">
                     <?php
-                    $media = json_decode(file_get_contents("../data/media/media.json"), true);
+                    $media = json_decode(file_get_contents("/var/www/data/media/media.json"), true);
                     foreach($media as $key => $value){
                     ?>
                     <tr>

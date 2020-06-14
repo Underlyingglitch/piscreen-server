@@ -5,10 +5,10 @@ session_start();
 //Checking if user has role
 include "../classes/auth.php";
 
-$auth = new Auth("../../../data");
+$auth = new Auth("/var/www/data");
 
 if ($auth->isRole("manage_users")) {
-  $json = file_get_contents('../../../data/users/controlpanel_users.json');
+  $json = file_get_contents('/var/www/data/users/controlpanel_users.json');
   $userarray = json_decode($json, true);
 
 
@@ -21,7 +21,7 @@ if ($auth->isRole("manage_users")) {
 
   $userarray[$i]['blocked'] = 1;
 
-  file_put_contents('../../../data/users/controlpanel_users.json', json_encode($userarray));
+  file_put_contents('/var/www/data/users/controlpanel_users.json', json_encode($userarray));
 
   echo "success";
 } else {

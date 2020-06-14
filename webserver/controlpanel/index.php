@@ -11,7 +11,7 @@ if (!isset($_SESSION['auth'])) {
 
 include "includes/classes/auth.php";
 
-$auth = new Auth("../data");
+$auth = new Auth("/var/www/data");
 
 $page = "dashboard";
 

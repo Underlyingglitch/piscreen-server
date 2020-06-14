@@ -4,13 +4,13 @@ $id = $_POST['id'];
 
 //TODO: Add security
 
-$media = json_decode(file_get_contents("../../../data/media/media.json"), true);
+$media = json_decode(file_get_contents("/var/www/data/media/media.json"), true);
 
-shell_exec("rm ../../../data/media/uploads/".$media[(int)$id]['filename']);
+shell_exec("rm /var/www/data/media/uploads/".$media[(int)$id]['filename']);
 
 unset($media[(int)$id]);
 
-file_put_contents("../../../data/media/media.json", json_encode($media));
+file_put_contents("/var/www/data/media/media.json", json_encode($media));
 
 echo "success";
 

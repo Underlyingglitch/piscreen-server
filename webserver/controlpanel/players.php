@@ -11,7 +11,7 @@ if (!isset($_SESSION['auth'])) {
 
 include "includes/classes/auth.php";
 
-$auth = new Auth("../data");
+$auth = new Auth("/var/www/data");
 
 $page = "players";
 
@@ -102,7 +102,7 @@ if (!$auth->isAnyRole("players")) {
                   <tbody id="players">
                     <?php
 
-                    $data_path = "../data/";
+                    $data_path = "/var/www/data/";
 
                     $json = file_get_contents($data_path.'players/players.json');
                     if (filesize($data_path.'players/players.json') != 0) {

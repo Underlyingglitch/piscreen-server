@@ -6,10 +6,10 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
   //Checking if user has role
   include "../classes/auth.php";
 
-  $auth = new Auth("../../../data");
+  $auth = new Auth("/var/www/data");
 
   if ($auth->isRole("add_users") == 1) {
-    $json = file_get_contents('../../../data/users/controlpanel_users.json');
+    $json = file_get_contents('/var/www/data/users/controlpanel_users.json');
     $userarray = json_decode($json, true);
 
     $new_user = array('username' => htmlspecialchars(stripslashes($_POST['username'])), 'password' => htmlspecialchars(stripslashes($_POST['password'])),
@@ -17,7 +17,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
 
     array_push($userarray, $new_user);
 
-    file_put_contents('../../../data/users/controlpanel_users.json', json_encode($userarray));
+    file_put_contents('/var/www/data/users/controlpanel_users.json', json_encode($userarray));
 
     echo "success";
   } else {

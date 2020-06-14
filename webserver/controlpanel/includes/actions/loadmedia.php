@@ -8,7 +8,7 @@
 // header('Content-Type: image/png');
 // echo base64_decode($data);
 
-$remoteImage = "../../../data/media/uploads/".$_GET['requested'];
+$remoteImage = "/var/www/data/media/uploads/".$_GET['requested'];
 $imginfo = getimagesize($remoteImage);
 header("Content-type: {$imginfo['mime']}");
 readfile($remoteImage);
