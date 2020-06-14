@@ -1,28 +1,26 @@
 <?php
 
-if (isset($_GET['client']) && isset($_GET['code']) && isset($_GET['name'])) {
+if (isset($_POST['client']) && isset($_POST['code']) && isset($_POST['name'])) {
   $json = file_get_contents("/var/www/data/players/players.json");
   $playerarray = json_decode($json, true);
 
   print_r($playerarray);
 
-  $newdata = array("name" => htmlspecialchars(stripslashes($_GET['name'])), "ip" => htmlspecialchars(stripslashes($_GET['client'])), "code" => htmlspecialchars(stripslashes($_GET['code'])));
+  $newdata = array("name" => htmlspecialchars(stripslashes($_POST['name'])), "ip" => htmlspecialchars(stripslashes($_POST['client'])), "code" => htmlspecialchars(stripslashes($_POST['code'])));
 
   array_push($playerarray, $newdata);
 
   file_put_contents("/var/www/data/players/players.json", json_encode($playerarray));
 
-  //file_get_contents("http://".$_GET['client'].":31804/server/reboot.php");
-
   $ch = curl_init();
 
-  curl_setopt($ch, CURLOPT_URL,'http://'.$_GET['server'].':31804/connect/confirm.php');
+  curl_setopt($ch, CURLOPT_URL,'http://'.$_POST['client'].':31804/server/reboot.php');
+  curl_setopt($ch, CURLOPT_POST, 1);
+  curl_setopt($ch, CURLOPT_POSTFIELDS, "code=".$_POST['code']);
 
   $server_output = curl_exec($ch);
 
   curl_close ($ch);
-
-  echo "success";
 }
 
 ?>
