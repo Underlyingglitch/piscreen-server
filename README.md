@@ -13,7 +13,7 @@ Er zijn 2 manieren om deze software te installeren, met een .img bestand (aanger
 ### Met een .img bestand
 1. Download de laatste versie via de [releases](https://github.com/Underlyingglitch/piscreen-server/releases)
 
-2. Download Balena Etcher (of een vergelijkbare tool) van [hub website](https://www.balena.io/etcher/)
+2. Download Balena Etcher (of een vergelijkbare tool) van [hun website](https://www.balena.io/etcher/)
 
 3. Flash het .img bestand naar een lege SD kaart (Waarschuwing: bestaande data zal verloren gaan)
 
