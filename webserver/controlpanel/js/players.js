@@ -21,7 +21,34 @@ $(document).ready(function(){
     }, 5000);
   });
 
-  function getStatus(ip) {
-    //TODO: refresh status every .. seconds
+  function setPlayerStatus(status) {
+
   }
+
+  function checkServer(url, timeout, status) {
+    const controller = new AbortController();
+    const signal = controller.signal;
+    const options = { mode: 'no-cors', signal };
+    return fetch(url, options)
+      .then(setTimeout(() => { controller.abort() }, timeout))
+      .then(response => status.html('Online!'))
+      .catch(error => status.html('Offline!'));
+  }
+
+  function getStatus() {
+    $('#players').find('tr').each(function(index, value){
+      var tds = $(this).find('td'),
+          name = tds.eq(0),
+          ip = tds.eq(1),
+          status = tds.eq(2);
+
+    checkServer('http://'+ip.text()+':31804/', 100, status);
+
+      //status.html('Online!');
+    });
+  }
+
+  setInterval(function(){
+    getStatus();
+  }, 2000);
 });
