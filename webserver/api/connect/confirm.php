@@ -20,7 +20,7 @@ if (isset($_POST['client']) && isset($_POST['code']) && isset($_POST['name'])) {
 
   $server_output = curl_exec($ch);
 
-  curl_close ($ch);
+  curl_close($ch);
 }
 
 ?>
