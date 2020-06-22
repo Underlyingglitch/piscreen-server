@@ -94,7 +94,7 @@ if (!$auth->isAnyRole("players")) {
                   <tfoot>
                     <tr>
                       <th>Naam</th>
-                      <th>IP <?php echo "hello".$_SERVER['SERVER_ADDR']; ?></th>
+                      <th>IP</th>
                       <th>Status</th>
                       <th>Acties</th>
                     </tr>
