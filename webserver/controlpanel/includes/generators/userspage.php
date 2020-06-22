@@ -1,6 +1,6 @@
 <?php
 
-$data_path = "../../../data/";
+$data_path = "/var/www/data/";
 
 $json = file_get_contents($data_path.'users/controlpanel_users.json');
 $userarray = json_decode($json, true);

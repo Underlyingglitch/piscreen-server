@@ -2,7 +2,7 @@
 
 $id = $_POST['id'];
 
-$media = json_decode(file_get_contents("../../../data/media/media.json"), true);
+$media = json_decode(file_get_contents("/var/www/data/media/media.json"), true);
 
 $file = explode(".", $media[$id]['filename']);
 
