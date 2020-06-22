@@ -9,7 +9,7 @@ fi
 
 echo "Installing packages"
 apt -y update
-apt -y install php7.3 curl php7.3-curl libapache2-mod-php
+apt -y install php7.3 curl php7.3-curl libapache2-mod-php python python-pip
 
 echo "Removing unnessesary packages"
 apt -y autoremove
