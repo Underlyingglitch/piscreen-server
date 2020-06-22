@@ -9,7 +9,7 @@ fi
 
 echo "Installing packages"
 apt -y update
-apt -y install php libapache2-mod-php
+apt -y install php7.3 curl php7.3-curl libapache2-mod-php
 
 echo "Removing unnessesary packages"
 apt -y autoremove
@@ -42,4 +42,11 @@ systemctl restart apache2
 
 raspi-config nonint do_hostname piscreenserver
 
+echo "Setting chmod permissions"
+chmod -R 777 /var/www
+
 echo "Installation done!"
+
+echo "Rebooting in 10 seconds"
+sleep 10
+reboot
