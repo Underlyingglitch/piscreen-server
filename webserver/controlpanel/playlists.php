@@ -215,7 +215,7 @@ if (!$auth->isAnyRole("playlists")) {
         </div>
         <div class="modal-footer">
           <button class="btn btn-secondary" type="button" data-dismiss="modal">Annuleren</button>
-          <a class="btn btn-danger" id="confirmCreatePlaylist" php-playlist-id="">Maak afspeellijst</a>
+          <button class="btn btn-success" id="confirmCreatePlaylist" php-playlist-id="">Maak afspeellijst</button>
         </div>
       </div>
     </div>
