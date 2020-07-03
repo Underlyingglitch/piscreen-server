@@ -71,7 +71,7 @@ if (!$auth->isAnyRole("playlists")) {
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-2 text-gray-800">Afspeellijsten</h1>
-            <button id="create-player-toggle" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm"><i class="fas fa-plus fa-sm text-white-50"></i> Nieuwe player</button>
+            <button id="create-playlist-toggle" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm"><i class="fas fa-plus fa-sm text-white-50"></i> Nieuwe afspeellijst</button>
           </div>
           <p class="mb-4">Bekijk, wijzig en voeg nieuwe afspeellijsten toe aan uw PiScreen installatie.</p>
 
@@ -104,16 +104,25 @@ if (!$auth->isAnyRole("playlists")) {
 
                     $data_path = "/var/www/data/";
 
-                    $json = file_get_contents($data_path.'users/controlpanel_users.json');
-                    $userarray = json_decode($json, true);
+                    $playlists = json_decode(file_get_contents($data_path.'playlists.json'), true);
 
-                    for ($i=0; $i<count($userarray); $i++) {
+                    $players = json_decode(file_get_contents($data_path.'players/players.json'), true);
+
+
+
+                    for ($i=0; $i<count($playlists); $i++) {
+                      $countplayers = 0;
+                      foreach ($players as $key => $value) {
+                        if ($value['active_playlist'] == $i) {
+                          $countplayers++;
+                        }
+                      }
                       ?>
                       <tr>
-                        <td><?php echo $userarray[$i]['username']; ?></td>
-                        <td><?php echo $userarray[$i]['last_login']; ?></td>
-                        <td><?php echo $userarray[$i]['last_ip_address']; ?></td>
-                        <td><button class="btn btn-primary change-password-btn" username="<?php echo $userarray[$i]['username']; ?>">Reset wachtwoord</button> <button class="btn btn-info role-edit-btn" username="<?php echo $userarray[$i]['username']; ?>">Rollen</button><?php if ($userarray[$i]['blocked'] == 0) { ?> <button class="btn btn-warning block-user-btn" username="<?php echo $userarray[$i]['username']; ?>">Blokkeer</button><?php } else { ?> <button class="btn btn-success activate-user-btn" username="<?php echo $userarray[$i]['username']; ?>">Activeer</button><?php } ?> <button class="btn btn-danger delete-btn" username="<?php echo $userarray[$i]['username']; ?>">Verwijder</button></td>
+                        <td><?php echo $playlists[$i]['name']; ?></td>
+                        <td><?php echo count($playlists[$i]['media']); ?></td>
+                        <td><?php echo $countplayers; ?></td>
+                        <td><button class="btn btn-info edit-playlist-btn" php-playlist-id="<?php echo $i; ?>">Bewerk afspeellijst</button> <button class="btn btn-danger delete-playlist-btn" php-playlist-id="<?php echo $id; ?>">Verwijder afspeellijst</button></td>
                       </tr>
 
                       <?php
@@ -167,6 +176,44 @@ if (!$auth->isAnyRole("playlists")) {
         <div class="modal-footer">
           <button class="btn btn-secondary" type="button" data-dismiss="modal">Annuleren</button>
           <a class="btn btn-warning" href="logout.php">Uitloggen</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Confirm delete modal-->
+  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Weet u het zeker?</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">Weet u zeker dat u de afspeellijst met het id <strong id="confirmDeleteId"></strong> wilt verwijderen?</div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Annuleren</button>
+          <a class="btn btn-danger" id="confirmDeletePlaylist" php-playlist-id="">Uitloggen</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Create playlist modal-->
+  <div class="modal fade" id="createPlaylistModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Nieuwe afspeellijst</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">Weet u zeker dat u de afspeellijst met het id <strong id="confirmDeleteId"></strong> wilt verwijderen?</div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Annuleren</button>
+          <a class="btn btn-danger" id="confirmDeletePlaylist" php-playlist-id="">Uitloggen</a>
         </div>
       </div>
     </div>
