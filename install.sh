@@ -32,10 +32,10 @@ mkdir /var/www/data/media
 mkdir /var/www/data/media/text
 mkdir /var/www/data/media/uploads
 mkdir /var/www/data/players
-mkdir /var/www/data/users
 mv /home/pi/piscreen-server/dist/datafiles/media.json /var/www/data/media/media.json
+mv /home/pi/piscreen-server/dist/datafiles/playlists.json /var/www/data/playlists.json
 mv /home/pi/piscreen-server/dist/datafiles/players.json /var/www/data/players/players.json
-mv /home/pi/piscreen-server/dist/datafiles/controlpanel_users.json /var/www/data/users/controlpanel_users.json
+mv /home/pi/piscreen-server/dist/datafiles/controlpanel_users.json /var/www/data/controlpanel_users.json
 
 echo "Restarting apache"
 systemctl restart apache2
