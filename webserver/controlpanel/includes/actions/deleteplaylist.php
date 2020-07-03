@@ -1,7 +1,7 @@
 <?php
 
 include "../classes/auth.php";
-$auth = new Auth("/var/www/data");
+$auth = new Auth();
 
 if (!$auth->isRole('delete_playlist')) {
   header('Location: ../../norole.php');

@@ -6,7 +6,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
   //Checking if user has role
   include "../classes/auth.php";
 
-  $auth = new Auth("/var/www/data");
+  $auth = new Auth();
 
   if ($auth->isRole("add_users") == 1) {
     $json = file_get_contents('/var/www/data/users/controlpanel_users.json');

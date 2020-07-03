@@ -11,7 +11,7 @@ if (!isset($_SESSION['auth'])) {
 
 include "includes/classes/auth.php";
 
-$auth = new Auth("/var/www/data");
+$auth = new Auth();
 
 $page = "media";
 

@@ -4,7 +4,7 @@ session_start();
 
 include "includes/classes/auth.php";
 
-$auth = new Auth("/var/www/data");
+$auth = new Auth();
 
 $auth->logout();
 

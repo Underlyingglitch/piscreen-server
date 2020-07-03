@@ -5,7 +5,7 @@ session_start();
 //Checking if user has role
 include "../classes/auth.php";
 
-$auth = new Auth("/var/www/data");
+$auth = new Auth();
 
 if ($auth->isRole("delete_users")) {
   $json = file_get_contents('/var/www/data/users/controlpanel_users.json');

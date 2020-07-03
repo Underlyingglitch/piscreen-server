@@ -2,7 +2,7 @@
 
 include "../classes/auth.php";
 
-$auth = new Auth("/var/www/data");
+$auth = new Auth();
 
 if (!$auth->isRole("add_playlist")) {
   header("Location: ../../norole.php");
