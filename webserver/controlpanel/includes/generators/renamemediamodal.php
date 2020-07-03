@@ -12,7 +12,7 @@ $file = explode(".", $media[$id]['filename']);
   <div class="input-group mb-2">
     <input class="form-control" type="text" id="newMediaName" php-media-id="<?php echo $id; ?>" placeholder="<?php echo $file[0]; ?>" \>
     <div class="input-group-prepend">
-      <div class="input-group-text">.<?php echo $file[1]; ?></div>
+      <div class="input-group-text" id="newMediaNameExt">.<?php echo $file[1]; ?></div>
     </div>
   </div>
 </div>
