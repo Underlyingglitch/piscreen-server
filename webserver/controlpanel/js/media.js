@@ -2,7 +2,7 @@ $(document).ready(function(){
   $('#closeMediaModal').on('click', function(){
     $('#addImageModal').modal('hide');
     uploader[0].dropzone.removeAllFiles();
-    $('#media').load('includes/generators/medialist.php');
+    location.reload();
   });
 
   $('.addMediaModalBtn').on('click', function(){
