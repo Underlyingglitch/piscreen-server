@@ -13,4 +13,6 @@ shell_exec(escapeshellcmd('mv /var/www/data/media/uploads/'.$oldname.' /var/www/
 
 file_put_contents("/var/www/data/media/media.json", json_encode($files));
 
+echo "success";
+
 ?>
