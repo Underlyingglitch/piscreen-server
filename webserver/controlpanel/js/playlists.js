@@ -24,5 +24,22 @@ $(document).ready(function(){
         alert('Sorry, probeer het later opnieuw!');
       }
     })
-  })
+  });
+
+  $('#create-playlist-toggle').on('click', function(){
+    $('#createPlaylistModal').modal('show');
+  });
+
+  $('#confirmCreatePlaylist').on('click', function(){
+    var name = $('#newPlaylistName').val();
+
+    $.post('includes/actions/createplaylist.php', {name: name}, function(data){
+      if (data == "success") {
+        $('#createPlaylistModal').modal('close');
+        location.reload();
+      } else {
+        alert("Fout bij het aanmaken van de afspeellijst, probeer het later opnieuw");
+      }
+    });
+  });
 });

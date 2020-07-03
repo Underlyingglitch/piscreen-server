@@ -210,10 +210,12 @@ if (!$auth->isAnyRole("playlists")) {
             <span aria-hidden="true">×</span>
           </button>
         </div>
-        <div class="modal-body">Weet u zeker dat u de afspeellijst met het id <strong id="confirmDeleteId"></strong> wilt verwijderen?</div>
+        <div class="modal-body">
+          <input class="form-control" id="newPlaylistName" placeholder="Naam" \>
+        </div>
         <div class="modal-footer">
           <button class="btn btn-secondary" type="button" data-dismiss="modal">Annuleren</button>
-          <a class="btn btn-danger" id="confirmDeletePlaylist" php-playlist-id="">Uitloggen</a>
+          <a class="btn btn-danger" id="confirmCreatePlaylist" php-playlist-id="">Maak afspeellijst</a>
         </div>
       </div>
     </div>
