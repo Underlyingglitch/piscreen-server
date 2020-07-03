@@ -17,7 +17,7 @@ if (move_uploaded_file($_FILES["file"]["tmp_name"], $target_file)){
 
   $time = $dateTime->format('d-m-Y H:i:s');
 
-  array_unshift($data, array("username" => $username, "filename" => $_FILES["file"]["name"], "filetype" => $imageFileType, "timestamp" => $time));
+  array_unshift($data, array("type" => "image", "username" => $username, "filename" => $_FILES["file"]["name"], "filetype" => $imageFileType, "timestamp" => $time));
 
   file_put_contents("/var/www/data/media/media.json", json_encode($data));
 }
