@@ -18,7 +18,7 @@ $(document).ready(function(){
 
     $.post('includes/actions/deleteplaylist.php', {id: playlist}, function(data){
       if (data == "success") {
-        $('#deletePlaylistConfirmModal').modal('close');
+        $('#deletePlaylistConfirmModal').modal('hide');
         location.reload();
       } else {
         alert('Sorry, probeer het later opnieuw!');
@@ -35,10 +35,11 @@ $(document).ready(function(){
 
     $.post('includes/actions/createplaylist.php', {name: name}, function(data){
       if (data == "success") {
-        $('#createPlaylistModal').modal('close');
+        $('#createPlaylistModal').modal('hide');
         location.reload();
       } else {
         alert("Fout bij het aanmaken van de afspeellijst, probeer het later opnieuw");
+        console.log(data);
       }
     });
   });
