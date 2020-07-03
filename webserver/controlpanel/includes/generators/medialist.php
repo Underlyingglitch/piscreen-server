@@ -4,7 +4,7 @@ $media = json_decode(file_get_contents("/var/www/data/media/media.json"), true);
 foreach($media as $key => $value){
 ?>
 <tr>
-  <td><img src="includes/actions/loadimage.php?requested=<?php echo $value['filename']; ?>" height="100px" \></td>
+  <td><img src="includes/actions/loadmedia.php?requested=<?php echo $value['filename']; ?>" height="100px" \></td>
   <td><?php echo $value['username']; ?></td>
   <td><?php echo $value['filename']; ?></td>
   <td><?php echo $value['timestamp']; ?></td>
