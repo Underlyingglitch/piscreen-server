@@ -17,10 +17,12 @@ apt -y autoremove
 echo "Removing default apache config"
 rm /etc/apache2/ports.conf
 rm /etc/apache2/sites-enabled/000-default.conf
+rm /etc/php/7.3/apache2/php.ini
 
 echo "Copying new configuration"
 mv /home/pi/piscreen-server/dist/apache/000-default.conf /etc/apache2/sites-enabled/000-default.conf
 mv /home/pi/piscreen-server/dist/apache/ports.conf /etc/apache2/ports.conf
+mv /home/pi/piscreen-server/dist/apache/php.ini /etc/php/7.3/apache2/php.ini
 
 echo "Copying webfiles to new location"
 mv /home/pi/piscreen-server/webserver/controlpanel /var/www
@@ -36,6 +38,10 @@ mv /home/pi/piscreen-server/dist/datafiles/media.json /var/www/data/media/media.
 mv /home/pi/piscreen-server/dist/datafiles/playlists.json /var/www/data/playlists.json
 mv /home/pi/piscreen-server/dist/datafiles/players.json /var/www/data/players/players.json
 mv /home/pi/piscreen-server/dist/datafiles/controlpanel_users.json /var/www/data/controlpanel_users.json
+
+echo "Setting timezone"
+rm /etc/localtime
+ln /usr/share/zoneinfo/Europe/Amsterdam /etc/localtime
 
 echo "Restarting apache"
 systemctl restart apache2
