@@ -317,7 +317,7 @@ if (!$auth->isAnyRole("media")) {
   Dropzone.options.imageUploadDropzone = false;
   var uploader = $('#imageUploadDropzone').dropzone({
     paramName: "file", // The name that will be used to transfer the file
-    maxFilesize: 2, // MB
+    maxFilesize: 20, // MB
     acceptedFiles: "image/*",
     dictDefaultMessage: "Klik hier, of sleep de bestanden naar dit veld om te beginnen met uploaden"
   });

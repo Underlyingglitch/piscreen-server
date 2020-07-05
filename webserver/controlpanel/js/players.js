@@ -17,7 +17,7 @@ $(document).ready(function(){
     setTimeout(function(){
       $('#addPlayer').modal('hide');
       //Refresh page
-      $('#players').load('includes/generators/playerspage.php');
+      location.reload();
     }, 5000);
   });
 
