@@ -2,6 +2,14 @@
 
 session_start();
 
+include "../classes/auth.php";
+
+$auth = new Auth();
+
+if (!$auth->isRole("add_media")) {
+  header("Location: ../../norole.php");
+}
+
 $username = $_SESSION['auth'];
 
 $target_dir = "/var/www/data/media/uploads/";
