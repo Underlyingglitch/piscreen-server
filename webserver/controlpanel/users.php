@@ -104,7 +104,7 @@ if (!$auth->isAnyRole("users")) {
 
                     $data_path = "/var/www/data/";
 
-                    $json = file_get_contents($data_path.'users/controlpanel_users.json');
+                    $json = file_get_contents($data_path.'controlpanel_users.json');
                     $userarray = json_decode($json, true);
 
                     for ($i=0; $i<count($userarray); $i++) {
