@@ -111,18 +111,25 @@ if (!$auth->isAnyRole("playlists")) {
 
 
                     for ($i=0; $i<count($playlists); $i++) {
-                      $countplayers = 0;
+                      $playlistplayers = [];
                       foreach ($players as $key => $value) {
-                        if ($value['active_playlist'] == $i) {
-                          $countplayers++;
+                        if ($value['active_playlist'] === $i) {
+                          array_push($playlistplayers, $value['name']);
                         }
                       }
                       ?>
                       <tr>
                         <td><?php echo $playlists[$i]['name']; ?></td>
                         <td><?php echo count($playlists[$i]['media']); ?></td>
-                        <td><?php echo $countplayers; ?></td>
-                        <td><button class="btn btn-info edit-playlist-btn" php-playlist-id="<?php echo $i; ?>">Bewerk afspeellijst</button> <button class="btn btn-danger delete-playlist-btn" php-playlist-id="<?php echo $id; ?>">Verwijder afspeellijst</button></td>
+                        <td><?php if (count($playlistplayers) == 0) { echo "<i>Geen players met deze afspeellijst</i>"; } else { print_r(implode(', ', $playlistplayers)); } ?></td>
+                        <td>
+                        <?php if ($auth->isRole("manage_media")) { ?>
+                          <button class="btn btn-info edit-playlist-btn" php-playlist-id="<?php echo $i; ?>">Bewerk afspeellijst</button>
+                        <?php } ?>
+                        <?php if ($auth->isRole("delete_playlist")) { ?>
+                          <button class="btn btn-danger delete-playlist-btn" php-playlist-id="<?php echo $id; ?>">Verwijder afspeellijst</button>
+                        <?php } ?>
+                        </td>
                       </tr>
 
                       <?php
