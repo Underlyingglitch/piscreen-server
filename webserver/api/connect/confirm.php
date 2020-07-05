@@ -6,7 +6,7 @@ if (isset($_POST['client']) && isset($_POST['code']) && isset($_POST['name'])) {
 
   print_r($playerarray);
 
-  $newdata = array("name" => htmlspecialchars(stripslashes($_POST['name'])), "ip" => htmlspecialchars(stripslashes($_POST['client'])), "code" => htmlspecialchars(stripslashes($_POST['code'])));
+  $newdata = array("name" => htmlspecialchars(stripslashes($_POST['name'])), "ip" => htmlspecialchars(stripslashes($_POST['client'])), "code" => htmlspecialchars(stripslashes($_POST['code'])), "active_playlist" => "");
 
   array_push($playerarray, $newdata);
 
