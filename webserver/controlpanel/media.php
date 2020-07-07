@@ -121,7 +121,7 @@ if (!$auth->isAnyRole("media")) {
                     foreach($media as $key => $value){
                     ?>
                     <tr>
-                      <td><img src="includes/actions/loadmedia.php?requested=<?php echo $value['filename']; ?>" height="100px" \></td>
+                      <td><img src="includes/actions/loadmedia.php?requested=<?php echo $key . "." . $value['ext']; ?>" height="100px" \></td>
                       <td><?php echo $value['username']; ?></td>
                       <td><?php echo $value['filename']; ?></td>
                       <td><?php echo $value['timestamp']; ?></td>

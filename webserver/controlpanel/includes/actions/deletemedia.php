@@ -16,14 +16,14 @@ $username = $users[$_SESSION['id']]['username'];
 
 if (
   (!$auth->isRole("delete_own_media") && !$auth->isRole("delete_all_media")) ||
-  (!$auth->isRole("delete_all_media") && $auth->isRole("delete_own_media") && $media[(int)$id]['username'] != $username)
+  (!$auth->isRole("delete_all_media") && $auth->isRole("delete_own_media") && $media[$id]['username'] != $username)
 ) {
   header("Location: ../../norole.php");
 }
 
-shell_exec("rm /var/www/data/media/uploads/".$media[(int)$id]['filename']);
+shell_exec("rm /var/www/data/media/uploads/".$media[$id]['filename']);
 
-unset($media[(int)$id]);
+unset($media[$id]);
 
 file_put_contents("/var/www/data/media/media.json", json_encode($media));
 

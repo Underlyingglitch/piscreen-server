@@ -24,11 +24,7 @@ if (
 
 $newname = htmlspecialchars(stripslashes($_POST['newname']));
 
-$oldname = $media[$id]['filename'];
-
-$media[$id]['filename'] = $newname;
-
-shell_exec(escapeshellcmd('mv /var/www/data/media/uploads/'.$oldname.' /var/www/data/media/uploads/'.$newname));
+$media[(string)$id]['filename'] = $newname;
 
 file_put_contents("/var/www/data/media/media.json", json_encode($media));
 
