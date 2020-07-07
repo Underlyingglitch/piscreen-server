@@ -26,6 +26,7 @@ if (!$auth->isRole("manage_media")) {
 $id = $_GET['id'];
 
 $playlists = json_decode(file_get_contents("/var/www/data/playlists.json"), true);
+$media = json_decode(file_get_contents("/var/www/data/media/media.json"), true);
 
 $playlist = $playlists[$id];
 
@@ -54,6 +55,14 @@ $playlist = $playlists[$id];
   <!-- Custom styles for this page -->
   <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
+  <style>
+    .selected {
+      border-style: solid;
+      border-color: green;
+      border-width: 3px;
+    }
+  </style>
+
 </head>
 
 <body id="page-top">
@@ -81,8 +90,9 @@ $playlist = $playlists[$id];
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-2 text-gray-800">Afspeellijst bewerken</h1>
+            <button id="addMediaBtn" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm"><i class="fas fa-plus fa-sm text-white-50"></i> Voeg media toe</button>
           </div>
-          <p class="mb-4">Bewerk afspeellijst: <strong><?php $playlist['name']; ?></strong></p>
+          <p class="mb-4">Bewerk afspeellijst: <strong><?php echo $playlist['name']; ?></strong></p>
 
           <!-- DataTales Example -->
           <div class="card shadow mb-4">
@@ -91,6 +101,7 @@ $playlist = $playlists[$id];
             </div>
             <div class="card-body">
               <div class="table-responsive">
+                <div style="display: none" id="playlistid"><?php echo $id; ?></div>
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                   <thead>
                     <tr>
@@ -108,21 +119,22 @@ $playlist = $playlists[$id];
                       <th>Acties</th>
                     </tr>
                   </tfoot>
-                  <tbody id="users">
-                    <?php
-                    foreach($playlist['media'] as $key => $value) {
-                      ?>
+                  <tbody>
+                    <?php foreach($playlist['media'] as $key => $value) { ?>
                       <tr>
-                        <td><?php echo $value['type']; ?></td>
-                        <td><?php if ($value['type'] == "image") { echo $playlist['media'][$i]['name']; } ?></td>
-                        <td><?php echo $countplayers; ?></td>
-                        <td><button class="btn btn-info edit-playlist-btn" php-playlist-id="<?php echo $i; ?>">Bewerk afspeellijst</button> <button class="btn btn-danger delete-playlist-btn" php-playlist-id="<?php echo $id; ?>">Verwijder afspeellijst</button></td>
+                        <?php if ($value['type'] == "image") { ?>
+                          <?php $img = $media[$value['id']]; ?>
+                          <td><img height="100px" src="includes/actions/loadmedia.php?requested=<?php echo $img['id'].".".$img['ext']; ?>" \></td>
+                          <td><?php echo $value['type']; ?></td>
+                          <td><?php echo $img['filename']; ?></td>
+                        <?php } ?>
+                        <td>
+                          <?php if ($key != 0) { ?><button class="btn btn-info move-media-up-btn" php-media-id="<?php echo $key; ?>"><i class="fas fa-chevron-up"></i></button> <?php } ?>
+                          <?php if ($key != count($playlist['media'])-1) { ?><button class="btn btn-info move-media-down-btn" php-media-id="<?php echo $key; ?>"><i class="fas fa-chevron-down"></i></button> <?php } ?>
+                          <button class="btn btn-danger delete-media-btn" php-media-id="<?php echo $key; ?>">Verwijder</button></td>
                       </tr>
 
-                      <?php
-                    }
-
-                    ?>
+                    <?php } ?>
                   </tbody>
                 </table>
               </div>
@@ -175,20 +187,20 @@ $playlist = $playlists[$id];
     </div>
   </div>
 
-  <!-- Confirm delete modal-->
-  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+  <!-- Add media modal-->
+  <div class="modal fade bd-example-modal-lg" id="addMediaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Weet u het zeker?</h5>
+          <h5 class="modal-title" id="exampleModalLabel">Voeg nieuwe media toe</h5>
           <button class="close" type="button" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">×</span>
           </button>
         </div>
-        <div class="modal-body">Weet u zeker dat u de afspeellijst met het id <strong id="confirmDeleteId"></strong> wilt verwijderen?</div>
+        <div class="modal-body" id="imgSelect"></div>
         <div class="modal-footer">
-          <button class="btn btn-secondary" type="button" data-dismiss="modal">Annuleren</button>
-          <a class="btn btn-danger" id="confirmDeletePlaylist" php-playlist-id="">Uitloggen</a>
+          <button class="btn btn-secondary" id="cancelAddImgs">Annuleren</button>
+          <button class="btn btn-success" php-playlist-id="<?php echo $_GET['id']; ?>" id="confirmAddImgs">Voeg toe</button>
         </div>
       </div>
     </div>
@@ -208,10 +220,7 @@ $playlist = $playlists[$id];
   <script src="vendor/datatables/jquery.dataTables.min.js"></script>
   <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
-  <!-- Page level custom scripts -->
-  <script src="js/demo/datatables-demo.js"></script>
-
-  <script src="js/playlists.js"></script>
+  <script src="js/editplaylist.js"></script>
 
 </body>
 
