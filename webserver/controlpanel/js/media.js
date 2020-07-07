@@ -52,8 +52,8 @@ $(document).ready(function(){
   });
 
   $('#submitNewMediaName').on('click', function(){
-    var newname = $('#newMediaName').val()+$('#newMediaNameExt').val();
-    var id = $('newMediaName').attr('php-media-id');
+    var newname = $('#newMediaName').val()+$('#newMediaNameExt').html();
+    var id = $('#newMediaName').attr('php-media-id');
     $.post('../includes/actions/renamemedia.php', {id: id, newname: newname}, function(data){
       if (data == "success") {
         $('#renameMediaModal').modal('hide');
