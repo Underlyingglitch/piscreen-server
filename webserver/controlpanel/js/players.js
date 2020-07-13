@@ -1,4 +1,26 @@
+(function($) {
+  $.fn.inputFilter = function(inputFilter) {
+    return this.on("input keydown keyup mousedown mouseup select contextmenu drop", function() {
+      if (inputFilter(this.value)) {
+        this.oldValue = this.value;
+        this.oldSelectionStart = this.selectionStart;
+        this.oldSelectionEnd = this.selectionEnd;
+      } else if (this.hasOwnProperty("oldValue")) {
+        this.value = this.oldValue;
+        this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+      } else {
+        this.value = "";
+      }
+    });
+  };
+}(jQuery));
+
 $(document).ready(function(){
+  $('#newPlayerIP').ipAddress();
+  $('#newPlayerCode').inputFilter(function(value){
+    return /^\d*$/.test(value);
+  });
+
   $('#create-player-toggle').on('click', function(){
     $('#addPlayer').modal('toggle');
   });
@@ -21,9 +43,25 @@ $(document).ready(function(){
     }, 5000);
   });
 
-  function setPlayerStatus(status) {
+  $('.select-playlist-btn').on('click', function(){
+    var id = $(this).attr('php-player-id');
+    $('#editPlaylistSelect').load('includes/generators/playlistselect.php');
+    $('#editPlaylistSubmit').attr('php-player-id', id);
+    $('#editPlaylist').modal('show');
+  });
 
-  }
+  $('#editPlaylistSubmit').on('click', function(){
+    var player = $(this).attr('php-player-id');
+    var playlist = $('#editPlaylistSelect').val();
+    $.post('includes/actions/changeplaylist.php', {player: player, playlist: playlist}, function(data){
+      if (data == "success") {
+        $('#editPlaylist').modal('hide');
+        location.reload();
+      } else {
+        alert('Sorry, probeer het later opnieuw!');
+      }
+    });
+  });
 
   function checkServer(url, timeout, status) {
     const controller = new AbortController();
