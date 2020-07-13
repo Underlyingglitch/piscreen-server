@@ -1,16 +1,12 @@
 <?php
 
 if (isset($_POST['client']) && isset($_POST['code']) && isset($_POST['name'])) {
-  $json = file_get_contents("/var/www/data/players/players.json");
+  $json = file_get_contents("/var/www/data/players.json");
   $playerarray = json_decode($json, true);
 
-  print_r($playerarray);
+  $playerarray[$_POST['code']] = array("name" => htmlspecialchars(stripslashes($_POST['name'])), "ip" => htmlspecialchars(stripslashes($_POST['client'])), "code" => htmlspecialchars(stripslashes($_POST['code'])), "active_playlist" => "");
 
-  $newdata = array("name" => htmlspecialchars(stripslashes($_POST['name'])), "ip" => htmlspecialchars(stripslashes($_POST['client'])), "code" => htmlspecialchars(stripslashes($_POST['code'])), "active_playlist" => "");
-
-  array_push($playerarray, $newdata);
-
-  file_put_contents("/var/www/data/players/players.json", json_encode($playerarray));
+  file_put_contents("/var/www/data/players.json", json_encode($playerarray));
 
   $ch = curl_init();
 
