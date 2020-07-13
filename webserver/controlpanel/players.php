@@ -19,6 +19,8 @@ if (!$auth->isAnyRole("players")) {
   header("Location: /");
 }
 
+$playslists = json_decode(file_get_contents("/var/www/data/playlists.json"), true);
+
 ?>
 
 <!DOCTYPE html>
@@ -73,7 +75,7 @@ if (!$auth->isAnyRole("players")) {
             <h1 class="h3 mb-2 text-gray-800">Players</h1>
             <button id="create-player-toggle" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm"><i class="fas fa-plus fa-sm text-white-50"></i> Nieuwe player</button>
           </div>
-          <p class="mb-4">Bekijk en voeg nieuwe players toe aan uw PiScreen installatie.</p>
+          <p class="mb-4">Beheer de players van uw PiScreen installatie.</p>
 
           <!-- DataTales Example -->
           <div class="card shadow mb-4">
@@ -88,6 +90,7 @@ if (!$auth->isAnyRole("players")) {
                       <th>Naam</th>
                       <th>IP</th>
                       <th>Status</th>
+                      <th>Afspeellijst</th>
                       <th>Acties</th>
                     </tr>
                   </thead>
@@ -96,6 +99,7 @@ if (!$auth->isAnyRole("players")) {
                       <th>Naam</th>
                       <th>IP</th>
                       <th>Status</th>
+                      <th>Afspeellijst</th>
                       <th>Acties</th>
                     </tr>
                   </tfoot>
@@ -104,18 +108,20 @@ if (!$auth->isAnyRole("players")) {
 
                     $data_path = "/var/www/data/";
 
-                    $json = file_get_contents($data_path.'players/players.json');
-                    if (filesize($data_path.'players/players.json') != 0) {
+                    $json = file_get_contents($data_path.'players.json');
+                    if (filesize($data_path.'players.json') != 0) {
                       $playerarray = json_decode($json, true);
 
-                      for ($i=0; $i<count($playerarray); $i++) {
+                      foreach ($playerarray as $player) {
                         ?>
                         <tr>
-                          <td><?php echo $playerarray[$i]['name']; ?></td>
-                          <td><?php echo $playerarray[$i]['ip']; ?></td>
+                          <td><?php echo $player['name']; ?></td>
+                          <td><?php echo $player['ip']; ?></td>
                           <td class="status-box">Laden...</td>
-                          <!-- TODO: change buttons on players page -->
-                          <td><button class="btn btn-primary change-password-btn" username="<?php echo $userarray[$i]['username']; ?>">Reset wachtwoord</button> <button class="btn btn-info role-edit-btn" username="<?php echo $userarray[$i]['username']; ?>">Rollen</button><?php if ($userarray[$i]['blocked'] == 0) { ?> <button class="btn btn-warning block-user-btn" username="<?php echo $userarray[$i]['username']; ?>">Blokkeer</button><?php } else { ?> <button class="btn btn-success activate-user-btn" username="<?php echo $userarray[$i]['username']; ?>">Activeer</button><?php } ?> <button class="btn btn-danger delete-btn" username="<?php echo $userarray[$i]['username']; ?>">Verwijder</button></td>
+                          <td><?php if ($player['active_playlist'] != "") { echo $playlists[$player['active_playlist']]['name']; } else { echo "Geen afspeellijst"; } ?></td>
+                          <td>
+                            <button class="btn btn-info select-playlist-btn" php-player-id="<?php echo $player['code']; ?>">Afspeellijst</button>
+                            <button class="btn btn-danger delete-player-btn" php-player-id="<?php echo $player['code']; ?>">Verwijder</button></td>
                         </tr>
 
                       <?php
@@ -188,11 +194,32 @@ if (!$auth->isAnyRole("players")) {
           Vul onderstaande velden in om een nieuwe player te koppelen aan uw PiScreen installatie.<br>
           <input class="form-control" type="text" id="newPlayerName" placeholder="Naam van player" style="margin-bottom: 4px">
           <input class="form-control" type="text" id="newPlayerIP" placeholder="IP adres (xxx.xxx.xx.xx)" style="margin-bottom: 4px">
-          <input class="form-control" type="text" id="newPlayerCode" placeholder="Beveiligingscode" style="margin-bottom: 4px">
+          <input class="form-control" type="text" id="newPlayerCode" placeholder="Beveiligingscode" style="margin-bottom: 4px" maxlength="6" min="0" max="6">
         </div>
         <div class="modal-footer">
           <button class="btn btn-secondary" type="button" data-dismiss="modal">Annuleren</button>
           <button class="btn btn-success" id="addPlayerBtn">Voeg toe</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit playlist modal -->
+  <div class="modal fade" id="editPlaylist" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Verander afspeellijst</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <select id="editPlaylistSelect"></select>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Annuleren</button>
+          <button class="btn btn-success" id="editPlaylistSubmit">Push wijzigingen</button>
         </div>
       </div>
     </div>
@@ -214,7 +241,10 @@ if (!$auth->isAnyRole("players")) {
   var serverIP = "<?php echo $_SERVER['SERVER_ADDR']; ?>";
   </script>
 
+  <script src="vendor/ipinputmask/mask.ip-input.js"></script>
+
   <script src="js/players.js"></script>
+
 
 </body>
 
