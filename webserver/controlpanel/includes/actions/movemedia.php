@@ -1,5 +1,16 @@
 <?php
 
+session_start();
+
+include "../classes/auth.php";
+
+$auth = new Auth();
+
+if (!$auth->isRole('manage_media')) {
+  header('Location: ../../norole.php');
+  exit;
+}
+
 $playlist = $_POST['playlistid'];
 $mediaid = $_POST['id'];
 

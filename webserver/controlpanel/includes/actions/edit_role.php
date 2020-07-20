@@ -58,7 +58,8 @@ if (isset($_POST['role']) && isset($_POST['user']) && isset($_POST['status'])) {
 
     echo "success";
   } else {
-    echo "norole";
+    header('Location: ../../norole.php');
+    exit;
   }
 
 

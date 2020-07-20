@@ -25,7 +25,8 @@ if ($auth->isRole("manage_users")) {
 
   echo "success";
 } else {
-  echo "norole";
+  header('Location: ../../norole.php');
+  exit;
 }
 
 ?>

@@ -8,6 +8,7 @@ $auth = new Auth();
 
 if (!$auth->isRole("add_media")) {
   header("Location: ../../norole.php");
+  exit;
 }
 
 function generateRandomString($length = 10) {

@@ -19,6 +19,7 @@ if (
   (!$auth->isRole("edit_all_media") && $auth->isRole("edit_own_media") && $media[(int)$id]['username'] != $username)
 ) {
   header("Location: ../../norole.php");
+  exit;
 }
 
 

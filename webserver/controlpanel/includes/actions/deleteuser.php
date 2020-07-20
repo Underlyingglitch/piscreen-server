@@ -25,7 +25,7 @@ if ($auth->isRole("delete_users")) {
 
   echo "success";
 } else {
-  echo "norole";
+  header('Location: ../../norole.php');
 }
 
 ?>
