@@ -30,6 +30,15 @@ $media = json_decode(file_get_contents("/var/www/data/media/media.json"), true);
 
 $playlist = $playlists[$id];
 
+function custom_echo($x, $length) {
+  if (strlen($x)<=$length) {
+    return $x;
+  } else {
+    $y = substr($x,0,$length) . '...';
+    return $y;
+  }
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -127,6 +136,10 @@ $playlist = $playlists[$id];
                           <td><img height="100px" src="includes/actions/loadmedia.php?requested=<?php echo $img['id'].".".$img['ext']; ?>" \></td>
                           <td><?php echo $value['type']; ?></td>
                           <td><?php echo $img['filename']; ?></td>
+                        <?php } else if ($value['type'] == "text") { ?>
+                          <td></td>
+                          <td><?php echo $value['type']; ?></td>
+                          <td><?php echo chunk_split(custom_echo($value['value'], 100), 20); ?></td>
                         <?php } ?>
                         <td>
                           <?php if ($key != 0) { ?><button class="btn btn-info move-media-up-btn" php-media-id="<?php echo $key; ?>"><i class="fas fa-chevron-up"></i></button> <?php } ?>
@@ -197,10 +210,31 @@ $playlist = $playlists[$id];
             <span aria-hidden="true">×</span>
           </button>
         </div>
-        <div class="modal-body" id="imgSelect"></div>
+        <div class="modal-body" id="mediaSelect"></div>
         <div class="modal-footer">
-          <button class="btn btn-secondary" id="cancelAddImgs">Annuleren</button>
-          <button class="btn btn-success" php-playlist-id="<?php echo $_GET['id']; ?>" id="confirmAddImgs">Voeg toe</button>
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Annuleren</button>
+          <button class="btn btn-success" php-playlist-id="<?php echo $_GET['id']; ?>" id="confirmAddMedia">Voeg toe</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Remove media modal-->
+  <div class="modal fade bd-example-modal-lg" id="removeMediaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Weet u het zeker?</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          Weet u zeker dat u dit wilt verwijderen?
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Annuleren</button>
+          <button class="btn btn-danger" php-media-id="" id="removeMediaModalBtn">Verwijder</button>
         </div>
       </div>
     </div>

@@ -69,8 +69,14 @@ $(document).ready(function(){
     const options = { mode: 'no-cors', signal };
     return fetch(url, options)
       .then(setTimeout(() => { controller.abort() }, timeout))
-      .then(response => status.html('Online!'))
-      .catch(error => status.html('Offline!'));
+      .then(response => {
+        status.html('Online!');
+        status.css('background-color', 'green');
+      })
+      .catch(error => {
+        status.html('Offline!');
+        status.css('background-color', 'red');
+      });
   }
 
   function getStatus() {

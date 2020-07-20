@@ -6,22 +6,22 @@ $(document).ready(function(){
     $('#addMediaModal').modal('show');
   });
 
-  $('#imgSelect').load('includes/generators/imgselect.php');
+  $('#mediaSelect').load('includes/generators/mediaselect.php');
 
-  $('#confirmAddImgs').on('click', function(){
+  $('#confirmAddMedia').on('click', function(){
 
-    var imgs = [];
+    var media = [];
 
-    $('#imgSelect').find('table').find('img').each(function(){
+    $('#mediaSelect').find('.mediaSelect').each(function(){
       if ($(this).hasClass('selected')) {
-        imgs.push($(this).attr('php-img-id'));
+        media.push($(this).attr('php-media-id'));
       }
     });
 
-    $.post('includes/actions/imgtoplaylist.php', {id:playlistid, imgs:JSON.stringify(imgs)}, function(data){
+    $.post('includes/actions/mediatoplaylist.php', {id:playlistid, media:JSON.stringify(media)}, function(data){
       if (data == "success") {
         $('#addMediaModal').modal('hide');
-        $('#imgSelect').find('table').find('img').each(function(){
+        $('#mediaSelect').find('.mediaSelect').each(function(){
           if ($(this).hasClass('selected')) {
             $(this).removeClass('selected');
           }
@@ -30,10 +30,10 @@ $(document).ready(function(){
       } else {
         alert('Sorry, probeer het later opnieuw');
       }
-    })
+    });
   });
 
-  $('#imgSelect').on('click', '.imgSelect', function(){
+  $('#mediaSelect').on('click', '.mediaSelect', function(){
     if ($(this).hasClass('selected')) {
       $(this).removeClass('selected');
     } else {
@@ -41,8 +41,8 @@ $(document).ready(function(){
     }
   });
 
-  $('#cancelAddImgs').on('click', function(){
-    $('#imgSelect').find('table').find('tr').each(function(){
+  $('#cancelAddMedia').on('click', function(){
+    $('#mediaSelect').find('table').find('tr').each(function(){
       $(this).find('td.selected').removeClass('selected');
     });
   });
@@ -67,6 +67,24 @@ $(document).ready(function(){
         alert('Sorry, probeer het later opnieuw');
       } else {
         location.reload();
+      }
+    });
+  });
+
+  $('.delete-media-btn').on('click', function(){
+    var id = $(this).attr('php-media-id');
+    $('#removeMediaModalBtn').attr('php-media-id', id);
+    $('#removeMediaModal').modal('show');
+  });
+
+  $('#removeMediaModalBtn').on('click', function(){
+    var id = $(this).attr('php-media-id');
+    $.post('includes/actions/removemedia.php', {id:id, playlistid:playlistid}, function(data){
+      if (data == "success") {
+        $('#removeMediaModal').modal('hide');
+        location.reload();
+      } else {
+        alert('Sorry, probeer het later opnieuw!');
       }
     });
   });

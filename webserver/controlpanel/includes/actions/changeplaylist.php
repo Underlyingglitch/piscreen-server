@@ -1,5 +1,7 @@
 <?php
 
+//TODO: add security
+
 $player = htmlspecialchars(stripslashes($_POST['player']));
 $playlist = htmlspecialchars(stripslashes($_POST['playlist']));
 

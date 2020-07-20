@@ -4,7 +4,7 @@ class Auth {
 
   function login($username, $password) {
     $username = htmlspecialchars(stripslashes($username));
-    $password = htmlspecialchars(stripslashes($password));
+    $password = md5(htmlspecialchars(stripslashes($password)));
 
     $json = file_get_contents('/var/www/data/controlpanel_users.json');
     $userarray = json_decode($json, true);

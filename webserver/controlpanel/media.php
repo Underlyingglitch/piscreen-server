@@ -19,6 +19,15 @@ if (!$auth->isAnyRole("media")) {
   header("Location: /");
 }
 
+function custom_echo($x, $length) {
+  if (strlen($x)<=$length) {
+    return $x;
+  } else {
+    $y = substr($x,0,$length) . '...';
+    return $y;
+  }
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -118,19 +127,35 @@ if (!$auth->isAnyRole("media")) {
                   <tbody id="media">
                     <?php
                     $media = json_decode(file_get_contents("/var/www/data/media/media.json"), true);
+                    $playlists = json_decode(file_get_contents("/var/www/data/playlists.json"), true);
                     foreach($media as $key => $value){
-                    ?>
-                    <tr>
-                      <td><img src="includes/actions/loadmedia.php?requested=<?php echo $key . "." . $value['ext']; ?>" height="100px" \></td>
-                      <td><?php echo $value['username']; ?></td>
-                      <td><?php echo $value['filename']; ?></td>
-                      <td><?php echo $value['timestamp']; ?></td>
-                      <td><?php echo $auth->isRole('delete_own_media'); ?></td>
-                      <td><?php if ($auth->isRole('delete_own_media') && $value['username'] == $_SESSION['auth'] || $auth->isRole('delete_all_media')) { ?><button class="btn btn-danger deleteMediaBtn" php-media-id="<?php echo $key; ?>">Verwijder</button><?php } ?> <?php if ($auth->isRole('edit_own_media') && $value['username'] == $_SESSION['auth'] || $auth->isRole('edit_all_media')) { ?><button class="btn btn-info renameMediaBtn" php-media-id="<?php echo $key; ?>">Wijzig naam</button><?php } ?></td>
-                    </tr>
-                    <?php
-                    }
-                    ?>
+                      $x=0;
+                      foreach($playlists as $playlist) {
+                        foreach($playlist['media'] as $m) {
+                          if ($m['id'] == $value['id']) {
+                            $x++;
+                          }
+                        }
+                      }
+                      if ($value['type'] == "image") {?>
+                      <tr>
+                        <td><img src="includes/actions/loadmedia.php?requested=<?php echo $key . "." . $value['ext']; ?>" height="100px" \></td>
+                        <td><?php echo $value['username']; ?></td>
+                        <td><?php echo $value['filename']; ?></td>
+                        <td><?php echo $value['timestamp']; ?></td>
+                        <td><?php echo $x; ?></td>
+                        <td><?php if ($auth->isRole('delete_own_media') && $value['username'] == $_SESSION['auth'] || $auth->isRole('delete_all_media')) { ?><button class="btn btn-danger deleteMediaBtn" php-media-id="<?php echo $key; ?>">Verwijder</button><?php } ?> <?php if ($auth->isRole('edit_own_media') && $value['username'] == $_SESSION['auth'] || $auth->isRole('edit_all_media')) { ?><button class="btn btn-info renameMediaBtn" php-media-id="<?php echo $key; ?>">Wijzig naam</button><?php } ?></td>
+                      </tr>
+                    <?php } else {?>
+                      <tr>
+                        <td class="text-view"><p style="display:none;"><?php echo chunk_split($value['value'], 40); ?></p><?php echo chunk_split(custom_echo($value['value'], 100), 30); ?></td>
+                        <td><?php echo $value['username']; ?></td>
+                        <td>textbestand</td>
+                        <td><?php echo $value['timestamp']; ?></td>
+                        <td><?php echo $x; ?></td>
+                        <td><?php if ($auth->isRole('delete_own_media') && $value['username'] == $_SESSION['auth'] || $auth->isRole('delete_all_media')) { ?><button class="btn btn-danger deleteMediaBtn" php-media-id="<?php echo $key; ?>">Verwijder</button><?php } ?> <?php if ($auth->isRole('edit_own_media') && $value['username'] == $_SESSION['auth'] || $auth->isRole('edit_all_media')) { ?><button class="btn btn-info renameMediaBtn" php-media-id="<?php echo $key; ?>">Wijzig naam</button><?php } ?></td>
+                      </tr>
+                    <?php } } ?>
                   </tbody>
                 </table>
               </div>
@@ -213,17 +238,11 @@ if (!$auth->isAnyRole("media")) {
           </button>
         </div>
         <div class="modal-body">
-          Selecteer een mediavorm en klik op volgende.
-          <select id="mediaTypeSelect">
-            <option value="--">--</option>
-            <option value="text">Tekst (mededelingen etc)</option>
-            <option value="image">Afbeelding</option>
-            <option value="url">Webpagina</option>
-          </select>
+          <textarea class="form-control" id="addTextInput" rows="5" cols="80"></textarea>
         </div>
         <div class="modal-footer">
           <button class="btn btn-secondary" type="button" data-dismiss="modal">Annuleren</button>
-          <button class="btn btn-primary" id="submitMediaType">Volgende</button>
+          <button class="btn btn-success" id="submitText">Voeg toe</button>
         </div>
       </div>
     </div>
@@ -296,6 +315,24 @@ if (!$auth->isAnyRole("media")) {
     </div>
   </div>
 
+  <!-- Text View Modal-->
+  <div class="modal fade" id="textViewModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Bekijk volledige tekst</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body" id="textViewModalBody"></div>
+        <div class="modal-footer">
+          <button class="btn btn-primary" type="button" data-dismiss="modal">Sluiten</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Bootstrap core JavaScript-->
   <script src="vendor/jquery/jquery.min.js"></script>
   <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -318,6 +355,8 @@ if (!$auth->isAnyRole("media")) {
   var uploader = $('#imageUploadDropzone').dropzone({
     paramName: "file", // The name that will be used to transfer the file
     maxFilesize: 20, // MB
+    maxThumbnailFilesize: 20,
+    timeout: 180000,
     acceptedFiles: "image/*",
     dictDefaultMessage: "Klik hier, of sleep de bestanden naar dit veld om te beginnen met uploaden"
   });

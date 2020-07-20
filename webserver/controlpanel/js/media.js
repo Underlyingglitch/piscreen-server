@@ -24,6 +24,19 @@ $(document).ready(function(){
     }
   });
 
+  $('#submitText').on('click', function(){
+    var text = $('#addTextInput').val();
+
+    $.post('includes/actions/addtext.php', {text: text}, function(data){
+      if (data == "success") {
+        $('#addTextModal').modal('hide');
+        location.reload();
+      } else {
+        alert('Sorry, probeer het later opnieuw!');
+      }
+    })
+  });
+
   $('.deleteMediaBtn').on('click', function(){
     var id = $(this).attr('php-media-id');
     $('.deleteMediaBtnConfirm').attr('php-media-id', id);
@@ -62,5 +75,11 @@ $(document).ready(function(){
         alert('Sorry, probeer het later opnieuw');
       }
     });
+  });
+
+  $('.text-view').on('click', function(){
+    var value = $(this).find('p').html();
+    $('#textViewModalBody').html(value);
+    $('#textViewModal').modal('show');
   });
 });

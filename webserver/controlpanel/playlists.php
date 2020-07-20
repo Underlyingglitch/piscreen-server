@@ -189,7 +189,7 @@ if (!$auth->isAnyRole("playlists")) {
   </div>
 
   <!-- Confirm delete modal-->
-  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal fade" id="deletePlaylistConfirmModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -201,7 +201,7 @@ if (!$auth->isAnyRole("playlists")) {
         <div class="modal-body">Weet u zeker dat u de afspeellijst met het id <strong id="confirmDeleteId"></strong> wilt verwijderen?</div>
         <div class="modal-footer">
           <button class="btn btn-secondary" type="button" data-dismiss="modal">Annuleren</button>
-          <a class="btn btn-danger" id="confirmDeletePlaylist" php-playlist-id="">Uitloggen</a>
+          <button class="btn btn-danger" id="confirmDeletePlaylist" php-playlist-id="">Ja, verwijder</button>
         </div>
       </div>
     </div>
