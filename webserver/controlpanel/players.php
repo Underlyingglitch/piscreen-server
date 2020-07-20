@@ -19,7 +19,7 @@ if (!$auth->isAnyRole("players")) {
   header("Location: /");
 }
 
-$playslists = json_decode(file_get_contents("/var/www/data/playlists.json"), true);
+$playlists = json_decode(file_get_contents("/var/www/data/playlists.json"), true);
 
 ?>
 
@@ -117,8 +117,8 @@ $playslists = json_decode(file_get_contents("/var/www/data/playlists.json"), tru
                         <tr>
                           <td><?php echo $player['name']; ?></td>
                           <td><?php echo $player['ip']; ?></td>
-                          <td class="status-box">Laden...</td>
-                          <td><?php if ($player['active_playlist'] != "") { echo $playlists[$player['active_playlist']]['name']; } else { echo "Geen afspeellijst"; } ?></td>
+                          <td class="status-box" style="background-color: orange; color: black">Laden...</td>
+                          <td><?php if ($player['active_playlist'] != "--") { echo $playlists[$player['active_playlist']]['name']; } else { echo "Geen afspeellijst"; } ?></td>
                           <td>
                             <button class="btn btn-info select-playlist-btn" php-player-id="<?php echo $player['code']; ?>">Afspeellijst</button>
                             <button class="btn btn-danger delete-player-btn" php-player-id="<?php echo $player['code']; ?>">Verwijder</button></td>
