@@ -19,7 +19,7 @@ if ($auth->isRole("manage_users")) {
     }
   }
 
-  $userarray[$i]['password'] = htmlspecialchars(stripslashes($_POST['password']));
+  $userarray[$i]['password'] = md5(htmlspecialchars(stripslashes($_POST['password'])));
 
   file_put_contents('/var/www/data/controlpanel_users.json', json_encode($userarray));
 
