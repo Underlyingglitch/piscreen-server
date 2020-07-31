@@ -37,6 +37,7 @@ mv /home/pi/piscreen-server/dist/datafiles/media.json /var/www/data/media/media.
 mv /home/pi/piscreen-server/dist/datafiles/playlists.json /var/www/data/playlists.json
 mv /home/pi/piscreen-server/dist/datafiles/players.json /var/www/data/players.json
 mv /home/pi/piscreen-server/dist/datafiles/controlpanel_users.json /var/www/data/controlpanel_users.json
+mv /home/pi/piscreen-server/dist/datafiles/updates.json /var/www/data/updates.json
 
 echo "Setting timezone"
 rm /etc/localtime
