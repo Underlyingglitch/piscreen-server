@@ -95,4 +95,16 @@ $(document).ready(function(){
   setInterval(function(){
     getStatus();
   }, 2000);
+
+  $('.delete-player-btn').on('click', function(){
+    var id = $(this).attr('php-player-id');
+
+    $.post('includes/actions/deleteplayer.php', {id:id}, function(data){
+      if (data == "success") {
+        location.reload();
+      } else {
+        alert('Sorry, probeer het later opnieuw');
+      }
+    });
+  });
 });
