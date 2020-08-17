@@ -40,6 +40,7 @@ for ($i=0; $i<count($userarray); $i++) {
     <button class="btn <?php if ($userarray[$i]['roles']['add_users'] === 1) { echo 'btn-success'; } else { echo 'btn-danger'; } ?> role-btn" php-role="add_users" php-status="<?php echo $userarray[$i]['roles']['add_users']; ?>" style="margin-bottom: 4px">Gebruiker aanmaken</button>
     <button class="btn <?php if ($userarray[$i]['roles']['delete_users'] === 1) { echo 'btn-success'; } else { echo 'btn-danger'; } ?> role-btn" php-role="delete_users" php-status="<?php echo $userarray[$i]['roles']['delete_users']; ?>" style="margin-bottom: 4px">Gebruiker verwijderen</button>
     <button class="btn <?php if ($userarray[$i]['roles']['manage_users'] === 1) { echo 'btn-success'; } else { echo 'btn-danger'; } ?> role-btn" php-role="manage_users" php-status="<?php echo $userarray[$i]['roles']['manage_users']; ?>">Gebruikers beheren</button>
+    <button class="btn <?php if ($userarray[$i]['roles']['admin'] === 1) { echo 'btn-success'; } else { echo 'btn-danger'; } ?> role-btn" php-role="admin" php-status="<?php echo $userarray[$i]['roles']['admin']; ?>">Admin</button>
   </div>
 </div>
 
