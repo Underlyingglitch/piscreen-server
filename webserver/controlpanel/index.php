@@ -238,7 +238,7 @@ $countplayers = count($players);
   <script src="js/main.js"></script>
   <script src="vendor/bootstrap-notify/bootstrap-notify.min.js"></script>
 
-  <?php if (file_exists('/var/www/controlpanel/update')) {?>
+  <?php if (file_exists('/var/www/controlpanel/update') && $auth->isRole('admin')) {?>
     <script>
       $(document).ready(function(){
         var update = $.notify('Update klaar voor installatie <br><a href="update.php" class="btn btn-warning">Start update</a>', {
