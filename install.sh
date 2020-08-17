@@ -41,6 +41,7 @@ mv /home/pi/piscreen-server/dist/datafiles/players.json /var/www/data/players.js
 mv /home/pi/piscreen-server/dist/datafiles/controlpanel_users.json /var/www/data/controlpanel_users.json
 mv /home/pi/piscreen-server/dist/datafiles/updates.json /var/www/data/updates.json
 mv /home/pi/piscreen-server/CURRENT_VERSION /var/www/data/CURRENT_VERSION
+mv /home/pi/piscreen-server/dist/scripts/update.sh /var/www/data/scripts/update.sh
 
 echo "Setting timezone"
 rm /etc/localtime
@@ -64,6 +65,7 @@ systemctl enable piscreen.service
 systemctl start piscreen.service
 
 echo "Installation done!"
+rm -rf /home/pi/piscreen-server
 
 echo "Rebooting in 10 seconds"
 sleep 10

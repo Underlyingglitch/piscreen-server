@@ -14,9 +14,12 @@ def updatecheck():
         f.close()
 
 def updateInstall():
-    if path.exists('/var/www/apiserver/server/reboot.command'):
-        os.system('sudo sh /var/www/data/scripts/update.sh')
+    if path.exists('/var/www/controlpanel/update.command'):
+        print('starting')
         os.remove('/var/www/controlpanel/update')
+        os.remove('/var/www/controlpanel/update.command')
+        os.system('sudo sh /var/www/data/scripts/update.sh')
+
 
 while True:
     time.sleep(3)

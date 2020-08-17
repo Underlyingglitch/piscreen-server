@@ -46,6 +46,7 @@ chmod -R 777 /var/www
 
 echo "Creating services"
 mv /home/pi/piscreen-server/dist/scripts/piscreen.py /var/www/data/scripts/piscreen.py
+mv /home/pi/piscreen-server/dist/scripts/update.sh /var/www/data/scripts/update.sh
 mv /home/pi/piscreen-server/dist/files/piscreen.service /lib/systemd/system/piscreen.service
 chmod 644 /lib/systemd/system/piscreen.service
 chmod +x /var/www/data/scripts/piscreen.py
@@ -54,6 +55,7 @@ systemctl enable piscreen.service
 systemctl start piscreen.service
 
 echo "Installation done!"
+rm -rf /home/pi/piscreen-server
 
 echo "Rebooting in 10 seconds"
 sleep 10
