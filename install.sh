@@ -7,13 +7,13 @@ if [[ $EUID -ne 0 ]]; then
   exit 1
 fi
 
-# echo "Installing packages"
-# apt -y update
-# apt -y install php7.3 curl php7.3-curl libapache2-mod-php python python-pip
-# pip install -r requirements.txt
-#
-# echo "Removing unnessesary packages"
-# apt -y autoremove
+echo "Installing packages"
+apt -y update
+apt -y install php7.3 curl php7.3-curl libapache2-mod-php python python-pip
+pip install -r /home/pi/piscreen-server/requirements.txt
+
+echo "Removing unnessesary packages"
+apt -y autoremove
 
 echo "Removing default apache config"
 rm /etc/apache2/ports.conf
