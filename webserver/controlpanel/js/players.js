@@ -88,7 +88,7 @@ $(document).ready(function(){
         status.html('Updaten...');
         status.css('background-color', 'orange');
       } else if (data == "Update available") {
-        status.html('Update <a target="_blank" href="http://'+url+':31804/server/update.php" ></a>');
+        status.html('Update <a class="btn btn-link" target="_blank" href="http://'+url+':31804/server/update.php">Installeer</a>');
         status.css('background-color', 'orange');
       } else {
         status.html('Offline!');
