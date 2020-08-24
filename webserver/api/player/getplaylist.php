@@ -9,7 +9,7 @@ $playlists = json_decode(file_get_contents("/var/www/data/playlists.json"), true
 if ($players[$code]['active_playlist'] == "--") {
   echo "empty";
 } else {
-  echo str_replace(" ", "", json_encode($playlists[$players[$code]['active_playlist']]));
+  echo json_encode($playlists[$players[$code]['active_playlist']]);
 }
 
 ?>
