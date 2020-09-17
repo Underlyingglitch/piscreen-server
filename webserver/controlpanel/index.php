@@ -3,9 +3,7 @@
 session_start();
 
 if (!isset($_SESSION['auth'])) {
-
   header("Location: login.php");
-
   exit;
 }
 
@@ -15,9 +13,25 @@ $auth = new Auth();
 
 $page = "dashboard";
 
-// if (!$auth->isAnyRole("dashboard")) {
-//   header("Location: /");
-// }
+$media = json_decode(file_get_contents("/var/www/data/media/media.json"), true);
+$playlists = json_decode(file_get_contents("/var/www/data/playlists.json"), true);
+$users = json_decode(file_get_contents("/var/www/data/controlpanel_users.json"), true);
+$players = json_decode(file_get_contents("/var/www/data/players.json"), true);
+$updates = json_decode(file_get_contents("/var/www/data/updates.json"), true);
+
+$activeplaylists = [];
+
+foreach ($players as $player) {
+  if (!in_array($player['active_playlist'], $activeplaylists)){
+    array_push($activeplaylists, $player['active_playlist']);
+  }
+}
+
+$mediacount = count($media);
+$totalplaylists = count($playlists);
+$totalactiveplaylists = count($activeplaylists);
+$countusers = count($users);
+$countplayers = count($players);
 
 ?>
 
@@ -68,7 +82,6 @@ $page = "dashboard";
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-            <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
           </div>
 
           <!-- Content Row -->
@@ -80,11 +93,11 @@ $page = "dashboard";
                 <div class="card-body">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Earnings (Monthly)</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
+                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Media bestanden (aantal)</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo $mediacount; ?></div>
                     </div>
                     <div class="col-auto">
-                      <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                      <i class="fas fa-image fa-2x text-gray-300"></i>
                     </div>
                   </div>
                 </div>
@@ -97,11 +110,11 @@ $page = "dashboard";
                 <div class="card-body">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Earnings (Annual)</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
+                      <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Afspeellijsten (totaal / actief)</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo $totalplaylists . " / " . $totalactiveplaylists; ?></div>
                     </div>
                     <div class="col-auto">
-                      <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                      <i class="fas fa-play fa-2x text-gray-300"></i>
                     </div>
                   </div>
                 </div>
@@ -114,20 +127,15 @@ $page = "dashboard";
                 <div class="card-body">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Tasks</div>
+                      <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Gebruikers (aantal)</div>
                       <div class="row no-gutters align-items-center">
                         <div class="col-auto">
-                          <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50%</div>
-                        </div>
-                        <div class="col">
-                          <div class="progress progress-sm mr-2">
-                            <div class="progress-bar bg-info" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                          </div>
+                          <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800"><?php echo $countusers; ?></div>
                         </div>
                       </div>
                     </div>
                     <div class="col-auto">
-                      <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                      <i class="fas fa-users fa-2x text-gray-300"></i>
                     </div>
                   </div>
                 </div>
@@ -140,11 +148,11 @@ $page = "dashboard";
                 <div class="card-body">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Pending Requests</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
+                      <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Players (aantal)</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo $countplayers; ?></div>
                     </div>
                     <div class="col-auto">
-                      <i class="fas fa-comments fa-2x text-gray-300"></i>
+                      <i class="fas fa-tv fa-2x text-gray-300"></i>
                     </div>
                   </div>
                 </div>
@@ -156,105 +164,21 @@ $page = "dashboard";
           <div class="row">
 
             <!-- Content Column -->
-            <div class="col-lg-6 mb-4">
+            <div class="col-lg-12 mb-4">
 
-              <!-- Project Card Example -->
-              <div class="card shadow mb-4">
-                <div class="card-header py-3">
-                  <h6 class="m-0 font-weight-bold text-primary">Projects</h6>
-                </div>
-                <div class="card-body">
-                  <h4 class="small font-weight-bold">Server Migration <span class="float-right">20%</span></h4>
-                  <div class="progress mb-4">
-                    <div class="progress-bar bg-danger" role="progressbar" style="width: 20%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
-                  </div>
-                  <h4 class="small font-weight-bold">Sales Tracking <span class="float-right">40%</span></h4>
-                  <div class="progress mb-4">
-                    <div class="progress-bar bg-warning" role="progressbar" style="width: 40%" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
-                  </div>
-                  <h4 class="small font-weight-bold">Customer Database <span class="float-right">60%</span></h4>
-                  <div class="progress mb-4">
-                    <div class="progress-bar" role="progressbar" style="width: 60%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
-                  </div>
-                  <h4 class="small font-weight-bold">Payout Details <span class="float-right">80%</span></h4>
-                  <div class="progress mb-4">
-                    <div class="progress-bar bg-info" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-                  </div>
-                  <h4 class="small font-weight-bold">Account Setup <span class="float-right">Complete!</span></h4>
-                  <div class="progress">
-                    <div class="progress-bar bg-success" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Color System -->
-              <!-- <div class="row">
-                <div class="col-lg-6 mb-4">
-                  <div class="card bg-primary text-white shadow">
-                    <div class="card-body">
-                      Primary
-                      <div class="text-white-50 small">#4e73df</div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-6 mb-4">
-                  <div class="card bg-success text-white shadow">
-                    <div class="card-body">
-                      Success
-                      <div class="text-white-50 small">#1cc88a</div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-6 mb-4">
-                  <div class="card bg-info text-white shadow">
-                    <div class="card-body">
-                      Info
-                      <div class="text-white-50 small">#36b9cc</div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-6 mb-4">
-                  <div class="card bg-warning text-white shadow">
-                    <div class="card-body">
-                      Warning
-                      <div class="text-white-50 small">#f6c23e</div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-6 mb-4">
-                  <div class="card bg-danger text-white shadow">
-                    <div class="card-body">
-                      Danger
-                      <div class="text-white-50 small">#e74a3b</div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-6 mb-4">
-                  <div class="card bg-secondary text-white shadow">
-                    <div class="card-body">
-                      Secondary
-                      <div class="text-white-50 small">#858796</div>
-                    </div>
-                  </div>
-                </div>
-              </div> -->
+              <h4>Laatste updates</h4>
+        			<ul class="timeline">
+                <?php foreach ($updates as $update) { ?>
+          				<li>
+          					<a target="_blank" href="#"><?php echo $update['title']; ?></a>
+          					<a href="#" class="float-right"><?php echo $update['date']; ?></a>
+          					<p><?php echo $update['content']; ?></p>
+          				</li>
+                <?php } ?>
+        			</ul>
 
             </div>
 
-            <div class="col-lg-6 mb-4">
-
-              <!-- Illustrations -->
-              <div class="card shadow mb-4">
-                <div class="card-header py-3">
-                  <h6 class="m-0 font-weight-bold text-primary">Illustrations</h6>
-                </div>
-                <div class="card-body">
-                  <div class="chart-pie pt-4 pb-2">
-                    <canvas id="myPieChart"></canvas>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
 
         </div>
@@ -267,7 +191,7 @@ $page = "dashboard";
       <footer class="sticky-footer bg-white">
         <div class="container my-auto">
           <div class="copyright text-center my-auto">
-            <span>Copyright &copy; PiScreen 2020</span>
+            <span>Copyright &copy; 2019 - PiScreen</span>
           </div>
         </div>
       </footer>
@@ -312,6 +236,19 @@ $page = "dashboard";
 
   <!-- Custom scripts for all pages-->
   <script src="js/main.js"></script>
+  <script src="vendor/bootstrap-notify/bootstrap-notify.min.js"></script>
+
+  <?php if (file_exists('/var/www/controlpanel/update') && $auth->isRole('admin')) {?>
+    <script>
+      $(document).ready(function(){
+        var update = $.notify('Update klaar voor installatie <br><a href="update.php" class="btn btn-warning">Start update</a>', {
+          type: 'warning'
+        });
+
+
+      });
+    </script>
+  <?php } ?>
 
 </body>
 

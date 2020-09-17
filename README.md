@@ -7,7 +7,7 @@ Deze applicatie geeft u de mogelijkheid om uw piscreen clients te beheren. Deze 
 
 Deze software moet op een apart apparaat worden geïnstalleerd. De server software kan niet naast de client software op hetzelfde apparaat draaien
 
-## Installatie
+## Installatie (niet werkend)
 Er zijn 2 manieren om deze software te installeren, met een .img bestand (aangeraden) of handmatig
 
 ### Met een .img bestand

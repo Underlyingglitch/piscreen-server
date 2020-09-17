@@ -10,6 +10,7 @@ fi
 echo "Installing packages"
 apt -y update
 apt -y install php7.3 curl php7.3-curl libapache2-mod-php python python-pip
+pip install -r /home/pi/piscreen-server/requirements.txt
 
 echo "Removing unnessesary packages"
 apt -y autoremove
@@ -33,10 +34,14 @@ mkdir /var/www/data
 mkdir /var/www/data/media
 mkdir /var/www/data/media/text
 mkdir /var/www/data/media/uploads
+mkdir /var/www/data/scripts
 mv /home/pi/piscreen-server/dist/datafiles/media.json /var/www/data/media/media.json
 mv /home/pi/piscreen-server/dist/datafiles/playlists.json /var/www/data/playlists.json
 mv /home/pi/piscreen-server/dist/datafiles/players.json /var/www/data/players.json
 mv /home/pi/piscreen-server/dist/datafiles/controlpanel_users.json /var/www/data/controlpanel_users.json
+mv /home/pi/piscreen-server/dist/datafiles/updates.json /var/www/data/updates.json
+mv /home/pi/piscreen-server/CURRENT_VERSION /var/www/data/CURRENT_VERSION
+mv /home/pi/piscreen-server/dist/scripts/update.sh /var/www/data/scripts/update.sh
 
 echo "Setting timezone"
 rm /etc/localtime
@@ -50,7 +55,17 @@ raspi-config nonint do_hostname piscreenserver
 echo "Setting chmod permissions"
 chmod -R 777 /var/www
 
+echo "Creating services"
+mv /home/pi/piscreen-server/dist/scripts/piscreen.py /var/www/data/scripts/piscreen.py
+mv /home/pi/piscreen-server/dist/files/piscreen.service /lib/systemd/system/piscreen.service
+chmod 644 /lib/systemd/system/piscreen.service
+chmod +x /var/www/data/scripts/piscreen.py
+systemctl daemon-reload
+systemctl enable piscreen.service
+systemctl start piscreen.service
+
 echo "Installation done!"
+rm -rf /home/pi/piscreen-server
 
 echo "Rebooting in 10 seconds"
 sleep 10

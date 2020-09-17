@@ -7,39 +7,55 @@ if [[ $EUID -ne 0 ]]; then
   exit 1
 fi
 
-echo "Updating packages"
-apt-get -y update
-apt-get -y upgrade
+echo "Installing packages"
+apt -y update
+apt -y upgrade
+apt -y install php7.3 curl php7.3-curl libapache2-mod-php python python-pip
+pip install -r /home/pi/piscreen-server/requirements.txt
 
-echo "Updating webfiles"
-echo "Downloading files"
-git clone https://github.com/Underlyingglitch/piscreen-server piscreen-server-update
-cd piscreen-server-update
-echo "Removing old files"
-rm -rf ../../webserver
-echo "Copying new files"
-cp -r webserver ../../webserver
+echo "Removing unnessesary packages"
+apt -y autoremove
 
-echo "Restarting services"
-mv dist/scripts/piscreen-server-api.service /lib/systemd/system/piscreen-server-api.service
-mv dist/scripts/piscreen-server-controlpanel.service /lib/systemd/system/piscreen-server-controlpanel.service
-chmod 644 /lib/systemd/system/piscreen-server-api.service
-chmod 644 /lib/systemd/system/piscreen-server-controlpanel.service
-chmod +x /home/pi/piscreen-server/webserver/startapiserver.py
-chmod +x /home/pi/piscreen-server/webserver/startcontrolpanel.py
+echo "Removing default apache config"
+rm /etc/apache2/ports.conf
+rm /etc/apache2/sites-enabled/000-default.conf
+rm /etc/php/7.3/apache2/php.ini
 
-echo "Reloading deamon"
+echo "Copying new configuration"
+mv /home/pi/piscreen-server/dist/apache/000-default.conf /etc/apache2/sites-enabled/000-default.conf
+mv /home/pi/piscreen-server/dist/apache/ports.conf /etc/apache2/ports.conf
+mv /home/pi/piscreen-server/dist/apache/php.ini /etc/php/7.3/apache2/php.ini
+
+echo "Copying webfiles to new location"
+mv /home/pi/piscreen-server/webserver/controlpanel /var/www
+mv /home/pi/piscreen-server/webserver/api /var/www
+
+mv /home/pi/piscreen-server/CURRENT_VERSION /var/www/data/CURRENT_VERSION
+
+echo "Setting timezone"
+rm /etc/localtime
+ln /usr/share/zoneinfo/Europe/Amsterdam /etc/localtime
+
+echo "Restarting apache"
+systemctl restart apache2
+
+raspi-config nonint do_hostname piscreenserver
+
+echo "Setting chmod permissions"
+chmod -R 777 /var/www
+
+echo "Creating services"
+mv /home/pi/piscreen-server/dist/scripts/piscreen.py /var/www/data/scripts/piscreen.py
+mv /home/pi/piscreen-server/dist/scripts/update.sh /var/www/data/scripts/update.sh
+mv /home/pi/piscreen-server/dist/files/piscreen.service /lib/systemd/system/piscreen.service
+chmod 644 /lib/systemd/system/piscreen.service
+chmod +x /var/www/data/scripts/piscreen.py
 systemctl daemon-reload
+systemctl enable piscreen.service
+systemctl start piscreen.service
 
-echo "Activating services"
-systemctl enable piscreen-server-api.service
-systemctl enable piscreen-server-controlpanel.service
-systemctl start piscreen-server-api.service
-systemctl start piscreen-server-controlpanel.service
-
-echo "Removing tmp files"
-cd ../../
-rm -rf piscreen-server-update
+echo "Installation done!"
+rm -rf /home/pi/piscreen-server
 
 echo "Rebooting in 10 seconds"
 sleep 10

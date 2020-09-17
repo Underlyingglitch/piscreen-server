@@ -63,20 +63,38 @@ $(document).ready(function(){
     });
   });
 
+  // function checkServer(url, timeout, status) {
+  //   const controller = new AbortController();
+  //   const signal = controller.signal;
+  //   const options = { mode: 'no-cors', signal };
+  //   return fetch(url, options)
+  //     .then(setTimeout(() => { controller.abort() }, timeout))
+  //     .then(response => {
+  //       status.html('Online!');
+  //       status.css('background-color', 'green');
+  //     })
+  //     .catch(error => {
+  //       status.html('Offline!');
+  //       status.css('background-color', 'red');
+  //     });
+  // }
+
   function checkServer(url, timeout, status) {
-    const controller = new AbortController();
-    const signal = controller.signal;
-    const options = { mode: 'no-cors', signal };
-    return fetch(url, options)
-      .then(setTimeout(() => { controller.abort() }, timeout))
-      .then(response => {
+    $.get('http://'+url+':31804/server/status.php', function(data){
+      if (data == "OK") {
         status.html('Online!');
         status.css('background-color', 'green');
-      })
-      .catch(error => {
+      } else if (data == "Updating") {
+        status.html('Updaten...');
+        status.css('background-color', 'orange');
+      } else if (data == "Update available") {
+        status.html('Update <a class="btn btn-link" target="_blank" href="http://'+url+':31804/server/update.php">Installeer</a>');
+        status.css('background-color', 'orange');
+      } else {
         status.html('Offline!');
         status.css('background-color', 'red');
-      });
+      }
+    });
   }
 
   function getStatus() {
@@ -86,7 +104,7 @@ $(document).ready(function(){
           ip = tds.eq(1),
           status = tds.eq(2);
 
-    checkServer('http://'+ip.text()+':31804/', 100, status);
+    checkServer(ip.text(), 100, status);
 
       //status.html('Online!');
     });
@@ -95,4 +113,16 @@ $(document).ready(function(){
   setInterval(function(){
     getStatus();
   }, 2000);
+
+  $('.delete-player-btn').on('click', function(){
+    var id = $(this).attr('php-player-id');
+
+    $.post('includes/actions/deleteplayer.php', {id:id}, function(data){
+      if (data == "success") {
+        location.reload();
+      } else {
+        alert('Sorry, probeer het later opnieuw');
+      }
+    });
+  });
 });
